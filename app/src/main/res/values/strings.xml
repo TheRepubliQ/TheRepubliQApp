@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">AppRepublic</string>
+    <string name="tittle">TheRepublic</string>
+    <string name="login">Login</string>
+    <string name="senha">Senha</string>
+    <string name="lembre_de_mim">Lembre de mim</string>
+    <string name="entrar">Entrar</string>
+    <string name="cadastrar">Ainda não tem conta?</string>
+</resources>
