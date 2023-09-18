@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="br.edu.ifsp.tcc.apprepublic.view.HomePage">
+
+    <item
+        android:id="@+id/action_edit_profile"
+        android:title="Editar Perfil"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_list_residences"
+        android:title="Listar Residências"
+        app:showAsAction="ifRoom" />
+</menu>

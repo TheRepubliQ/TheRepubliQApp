@@ -12,9 +12,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import br.edu.ifsp.tcc.apprepublic.mvp.MainActivityMVP;
+import br.edu.ifsp.tcc.apprepublic.presenter.MainActivityPresenter;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainActivityMVP.View {
 
     private EditText textUser;
     private EditText textPassword;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private CheckBox lembrarDeMim;
 
+    private MainActivityPresenter presenter;
 
 
     @Override
@@ -32,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         findById();
         setListener();
-
+        presenter = new MainActivityPresenter(this, this);
 
         //CRIAÇÃO DO SHARED PREFERENCES PARA GUARDAR USERNAME DO USUARIO
         sharedPreferences = getSharedPreferences("login_preferences", Context.MODE_PRIVATE);
@@ -45,35 +48,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setListener() {
-        textUser = findViewById(R.id.edittext_user);
-        textPassword = findViewById(R.id.edittext_password);
-        esqueciSenha = findViewById(R.id.esqueci_senha);
-        enterButton = findViewById(R.id.button_enter);
-        cadastrarTextView = findViewById(R.id.text_cadastrar);
-        lembrarDeMim = findViewById(R.id.radio_remember_me);
-    }
-
-    private void findById() {
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Adicione aqui a lógica para lidar com o clique no botão "Entrar"
+                // Obtenha os valores dos campos de usuário e senha
                 String user = textUser.getText().toString();
                 String password = textPassword.getText().toString();
 
-                // Salvar o estado do lembrarDeMim no SharedPreferences
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("lembrarDeMim", isLembrarDeMimChecked());
-                editor.apply();
-
-                if (isLembrarDeMimChecked()) {
-                    // Salvar o usuário no SharedPreferences
-                    editor.putString("usuario", user);
-                    editor.apply();
+                // Verifique se os campos estão preenchidos
+                if (user.isEmpty() || password.isEmpty()) {
+                    // Exiba uma mensagem de erro indicando que ambos os campos devem ser preenchidos
+                    Toast.makeText(getApplicationContext(), "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Remover o usuário do SharedPreferences
-                    editor.remove("usuario");
+                    // Os campos estão preenchidos, prossiga com a lógica de login
+                    presenter.login(user, password);
+
+                    // Salvar o estado do lembrarDeMim no SharedPreferences
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("lembrarDeMim", isLembrarDeMimChecked());
                     editor.apply();
+
+                    if (isLembrarDeMimChecked()) {
+                        // Salvar o usuário no SharedPreferences
+                        editor.putString("usuario", user);
+                        editor.apply();
+                    } else {
+                        // Remover o usuário do SharedPreferences
+                        editor.remove("usuario");
+                        editor.apply();
+                    }
                 }
             }
         });
@@ -82,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Adicione aqui a lógica para lidar com o clique no texto "Cadastrar"
-
+                presenter.cadast();
             }
         });
 
@@ -90,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Adicione aqui a lógica para lidar com o clique no texto "Esqueci minha senha"
+                presenter.altSenha();
             }
         });
 
@@ -104,6 +108,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void findById() {
+        textUser = findViewById(R.id.edittext_user);
+        textPassword = findViewById(R.id.edittext_password);
+        esqueciSenha = findViewById(R.id.esqueci_senha);
+        enterButton = findViewById(R.id.button_enter);
+        cadastrarTextView = findViewById(R.id.text_cadastrar);
+        lembrarDeMim = findViewById(R.id.radio_remember_me);
+
+    }
+
     public boolean isLembrarDeMimChecked() {
         return lembrarDeMim.isChecked();
     }
@@ -112,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
         return this;
     }
 
-    public void showErrorMessage(String errorMessage) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+    public void showMessage(String Message) {
+        Toast.makeText(this, Message, Toast.LENGTH_SHORT).show();
     }
 
 }
