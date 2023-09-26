@@ -1,5 +1,6 @@
 package br.edu.ifsp.tcc.apprepublic.model.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -195,5 +196,24 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         return usuarioLinha;
     }
+
+    public void addUser(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NAME, user.getName());
+        values.put(COLUMN_EMAIL, user.getEmail());
+        values.put(COLUMN_PASSWORD, user.getPassword());
+        values.put(COLUMN_TELEFONE, user.getTelefone());
+        values.put(COLUMN_NASCIMENTO, user.getDataNascimento().toString());
+        values.put(COLUMN_GENDER, user.getGender().toString());
+        values.put(COLUMN_LOGIN, user.getLogin());
+        values.put(COLUMN_CPF, user.getCpf());
+        values.put(COLUMN_PROP, user.getIsProp() ? 1 : 0);
+
+        db.insert(TABLE_NAME_USER, null, values);
+        db.close();
+    }
+
 
 }

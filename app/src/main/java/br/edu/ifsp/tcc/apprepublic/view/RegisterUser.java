@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -12,9 +13,13 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import br.edu.ifsp.tcc.apprepublic.model.user.Gender;
+import br.edu.ifsp.tcc.apprepublic.mvp.RegisterUserMVP;
+import br.edu.ifsp.tcc.apprepublic.presenter.MainActivityPresenter;
+import br.edu.ifsp.tcc.apprepublic.presenter.RegisterUserPresenter;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
 
-public class RegisterUser extends AppCompatActivity {
+public class RegisterUser extends AppCompatActivity implements RegisterUserMVP.View {
 
     private ImageButton btnBack;
     private EditText edittextLogin;
@@ -27,13 +32,18 @@ public class RegisterUser extends AppCompatActivity {
     private CheckBox checkboxProp;
     private Button btnCadastrar;
 
+    private RegisterUserPresenter presenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user);
+        presenter = new RegisterUserPresenter(this, this);
+    
 
         findById();
+        populateGenderSpinner(); // Chame o método para preencher o Spinner
         setListener();
 
     }
@@ -61,7 +71,8 @@ public class RegisterUser extends AppCompatActivity {
                 String genero = spinnerGenero.getSelectedItem().toString();
                 boolean isOfertado = checkboxProp.isChecked();
 
-                // Realize as ações necessárias com os dados acima, como validação e envio para o servidor.
+                presenter.register(login, cpf, telefone, dataNascimento, email, senha, genero, isOfertado);
+
             }
         });
     }
@@ -84,7 +95,23 @@ public class RegisterUser extends AppCompatActivity {
         return this;
     }
 
-    public void showErrorMessage(String errorMessage) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+    @Override
+    public void showMessage(String mensage) {
+        Toast.makeText(this, mensage, Toast.LENGTH_SHORT).show();
+
+
     }
+
+    private void populateGenderSpinner() {
+        ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Adicione os valores possíveis de gênero ao adaptador
+        for (Gender gender : Gender.values()) {
+            genderAdapter.add(gender.getDescription());
+        }
+
+        spinnerGenero.setAdapter(genderAdapter);
+    }
+
 }
