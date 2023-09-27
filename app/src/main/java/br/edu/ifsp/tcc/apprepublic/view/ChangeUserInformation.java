@@ -11,9 +11,10 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import br.edu.ifsp.tcc.apprepublic.mvp.ChangeUserInformationMVP;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
 
-public class ChangeUserInformation extends AppCompatActivity {
+public class ChangeUserInformation extends AppCompatActivity implements ChangeUserInformationMVP.View {
 
     private ImageButton btnBack;
     private Button btnCad;
@@ -79,7 +80,10 @@ public class ChangeUserInformation extends AppCompatActivity {
         return this;
     }
 
-    public void showErrorMessage(String errorMessage) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+    @Override
+    public void showMessage(String mensage) {
+        Toast.makeText(this, mensage, Toast.LENGTH_SHORT).show();
+
     }
+
 }

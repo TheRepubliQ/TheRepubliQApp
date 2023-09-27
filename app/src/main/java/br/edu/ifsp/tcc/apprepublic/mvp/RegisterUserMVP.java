@@ -3,10 +3,11 @@ package br.edu.ifsp.tcc.apprepublic.mvp;
 import android.content.Context;
 
 public interface RegisterUserMVP {
-    interface View {
+
+    interface View{
         Context getContext();
 
-        void showMessage(String erro_ao_buscar_usuário);
+        void showMessage(String mensage);
 
     }
 

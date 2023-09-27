@@ -4,10 +4,11 @@ import android.content.Context;
 
 public interface ListResidencesMVP {
 
+
     interface View{
         Context getContext();
 
-        void showMessage(String erro_ao_buscar_usuário);
+        void showMessage(String mensage);
 
     }
 
