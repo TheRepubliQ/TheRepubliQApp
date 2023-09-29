@@ -1,4 +1,10 @@
 package br.edu.ifsp.tcc.apprepublic.presenter;
 
-public class UpdatePasswordPresenter {
+import br.edu.ifsp.tcc.apprepublic.mvp.UpdatePasswordMVP;
+
+public class UpdatePasswordPresenter implements UpdatePasswordMVP.Presenter{
+    @Override
+    public void alterSenha(String email, String newSenha) {
+
+    }
 }

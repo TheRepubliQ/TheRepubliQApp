@@ -11,4 +11,11 @@ public interface HomePageMVP {
         void showMessage(String mensage);
 
     }
+
+    interface Presenter{
+
+        void changeToRegisterResidence();
+
+        void changeToEditPerfil();
+    }
 }

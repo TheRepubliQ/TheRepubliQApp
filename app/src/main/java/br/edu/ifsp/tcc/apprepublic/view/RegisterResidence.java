@@ -12,9 +12,10 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import br.edu.ifsp.tcc.apprepublic.mvp.RegisterResidenceMVP;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
 
-public class RegisterResidence extends AppCompatActivity {
+public class RegisterResidence extends AppCompatActivity implements RegisterResidenceMVP.View {
 
     private EditText edittexDesc;
     private EditText edittextPrec;
@@ -73,7 +74,11 @@ public class RegisterResidence extends AppCompatActivity {
         return this;
     }
 
-    public void showErrorMessage(String errorMessage) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+    @Override
+    public void showMessage(String mensage) {
+        Toast.makeText(this, mensage, Toast.LENGTH_SHORT).show();
+
     }
+
+
 }

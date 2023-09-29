@@ -10,9 +10,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import br.edu.ifsp.tcc.apprepublic.mvp.UpdatePasswordMVP;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
 
-public class UpdatePassword extends AppCompatActivity {
+public class UpdatePassword extends AppCompatActivity implements UpdatePasswordMVP.View {
 
     private ImageButton btnBack;
     private EditText edittextSenhaAtual;
@@ -64,7 +65,11 @@ public class UpdatePassword extends AppCompatActivity {
         return this;
     }
 
-    public void showErrorMessage(String errorMessage) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+    @Override
+    public void showMessage(String mensage) {
+        Toast.makeText(this, mensage, Toast.LENGTH_SHORT).show();
+
     }
+
+
 }
