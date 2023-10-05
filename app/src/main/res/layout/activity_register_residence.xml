@@ -3,52 +3,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/backgroundAppColor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="br.edu.ifsp.tcc.apprepublic.view.RegisterResidence">
-
-    <LinearLayout
-        android:id="@+id/cabecalho"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="30dp"
-            android:backgroundTint="@color/black"
-            android:src="@android:drawable/ic_menu_revert" />
-
-        <TextView
-            android:id="@+id/text_vamosComecar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Registrar Usuário"
-            android:textColor="@color/black"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-    </LinearLayout>
 
     <TextView
         android:id="@+id/textDescricaoMoradia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="40dp"
         android:text="Descrição"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cabecalho" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/edittext_DescricaoMoradia"
@@ -57,11 +27,11 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"
-        android:background="@color/white"
+        android:background="@drawable/edittext_rounded_background"
         android:inputType="text"
         android:hint="Descrição"
         android:padding="10dp"
-        android:textAlignment="textStart"
+        android:textAlignment="center"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -109,37 +79,28 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"
-        android:background="@color/white"
+        android:background="@drawable/edittext_rounded_background"
         android:inputType="numberDecimal"
-        android:hint="Preço"
+        android:hint="preço"
         android:padding="10dp"
-        android:textAlignment="textStart"
+        android:textAlignment="center"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textPrecoMoradia" />
 
-    <TextView
-        android:id="@+id/textOfertadoMoradia"
-        android:layout_width="88dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="20dp"
-        android:text="Ofertado:"
-        android:textColor="@color/black"
-        android:textSize="28sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edittext_PrecoMoradia" />
-
 
     <CheckBox
         android:id="@+id/checkbox_OfertadoMoradia"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_width="241dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="36dp"
+        android:hint="Ofertado"
+        android:textColorHint="@color/black"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.102"
-        app:layout_constraintStart_toEndOf="@+id/textOfertadoMoradia"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edittext_PrecoMoradia" />
 
     <TextView
@@ -172,11 +133,11 @@
         android:layout_height="43dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="30dp"
-        android:background="@color/white"
+        android:background="@drawable/edittext_rounded_background"
         android:hint="CEP"
         android:inputType="numberDecimal"
         android:padding="10dp"
-        android:textAlignment="textStart"
+        android:textAlignment="center"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"
@@ -202,11 +163,11 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"
-        android:background="@color/white"
+        android:background="@drawable/edittext_rounded_background"
         android:inputType="numberDecimal"
         android:hint="Numero"
         android:padding="10dp"
-        android:textAlignment="textStart"
+        android:textAlignment="center"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

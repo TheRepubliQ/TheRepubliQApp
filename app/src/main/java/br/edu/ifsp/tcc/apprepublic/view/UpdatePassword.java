@@ -15,7 +15,6 @@ import br.edu.ifsp.tcc.apptherrepubliq.R;
 
 public class UpdatePassword extends AppCompatActivity implements UpdatePasswordMVP.View {
 
-    private ImageButton btnBack;
     private EditText edittextSenhaAtual;
     private EditText edittextNovaSenha;
     private EditText edittextConfirmarNovaSenha;
@@ -31,13 +30,6 @@ public class UpdatePassword extends AppCompatActivity implements UpdatePasswordM
     }
 
     private void setListener() {
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Adicione aqui a lógica para lidar com o clique no botão "Voltar"
-                finish();
-            }
-        });
 
         btnAlterarSenha.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +45,6 @@ public class UpdatePassword extends AppCompatActivity implements UpdatePasswordM
     }
 
     private void findById() {
-        btnBack = findViewById(R.id.btn_back);
         edittextSenhaAtual = findViewById(R.id.edittext_senhaAtual);
         edittextNovaSenha = findViewById(R.id.edittext_novaSenha);
         edittextConfirmarNovaSenha = findViewById(R.id.edittext_confirmarNovaSenha);

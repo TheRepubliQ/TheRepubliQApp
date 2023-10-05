@@ -16,7 +16,6 @@ import br.edu.ifsp.tcc.apptherrepubliq.R;
 
 public class ChangeUserInformation extends AppCompatActivity implements ChangeUserInformationMVP.View {
 
-    private ImageButton btnBack;
     private Button btnCad;
     private EditText edittextLogin;
     private EditText edittextCpf;
@@ -36,13 +35,7 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
     }
 
     private void setListener() {
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Adicione aqui a lógica para lidar com o clique no botão "Voltar"
-                finish();
-            }
-        });
+
 
         btnCad.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +58,6 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
     }
 
     private void findById() {
-        btnBack = findViewById(R.id.btn_back);
         btnCad = findViewById(R.id.btn_cad);
         edittextLogin = findViewById(R.id.edittext_Login);
         edittextCpf = findViewById(R.id.edittext_Cpf);

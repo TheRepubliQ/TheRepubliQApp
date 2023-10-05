@@ -21,7 +21,6 @@ import br.edu.ifsp.tcc.apptherrepubliq.R;
 
 public class RegisterUser extends AppCompatActivity implements RegisterUserMVP.View {
 
-    private ImageButton btnBack;
     private EditText edittextLogin;
     private EditText edittextCpf;
     private EditText edittextTel;
@@ -49,13 +48,6 @@ public class RegisterUser extends AppCompatActivity implements RegisterUserMVP.V
     }
 
     private void setListener() {
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Lógica para lidar com o clique no botão de voltar
-                finish(); // Feche a atividade atual
-            }
-        });
 
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +71,6 @@ public class RegisterUser extends AppCompatActivity implements RegisterUserMVP.V
 
 
     private void findById() {
-        btnBack = findViewById(R.id.btn_back);
         edittextLogin = findViewById(R.id.edittext_Login);
         edittextCpf = findViewById(R.id.edittext_Cpf);
         edittextTel = findViewById(R.id.edittext_Tel);

@@ -23,7 +23,6 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
     private EditText edittextNum;
     private CheckBox ofertado;
     private Spinner tipoMoradia;
-    private ImageButton rollBack;
     private Button cadastrar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +34,6 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
     }
 
     private void setListener() {
-        rollBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Adicione aqui a lógica para lidar com o clique no botão "Entrar"
-                finish();
-            }
-        });
 
         cadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +57,6 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
         edittextNum = findViewById(R.id.edittext_textNumero);
         ofertado = findViewById(R.id.checkbox_OfertadoMoradia);
         tipoMoradia = findViewById(R.id.spinner_TipoMoradia);
-        rollBack = findViewById(R.id.btn_back);
         cadastrar = findViewById(R.id.btn_cadMoradia);
     }
 

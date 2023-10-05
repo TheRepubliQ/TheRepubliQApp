@@ -37,8 +37,6 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
     }
 
     private void findById() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("The RepupliQ");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
