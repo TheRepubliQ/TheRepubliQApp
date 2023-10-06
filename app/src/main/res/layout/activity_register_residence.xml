@@ -92,14 +92,14 @@
 
     <CheckBox
         android:id="@+id/checkbox_OfertadoMoradia"
-        android:layout_width="241dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="36dp"
+        android:layout_width="202dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="40dp"
         android:hint="Ofertado"
         android:textColorHint="@color/black"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintHorizontal_bias="0.358"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edittext_PrecoMoradia" />
 

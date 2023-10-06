@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +28,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityMVP.V
     private SharedPreferences sharedPreferences;
     private CheckBox lembrarDeMim;
 
+    private CheckBox visivel;
+
+
     private MainActivityPresenter presenter;
+
+    private boolean isPasswordVisible = true;
 
 
     @Override
@@ -45,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityMVP.V
             String savedUser = sharedPreferences.getString("usuario", "");
             textUser.setText(savedUser);
         }
+
     }
 
     private void setListener() {
@@ -106,6 +114,26 @@ public class MainActivity extends AppCompatActivity implements MainActivityMVP.V
                 editor.apply();
             }
         });
+
+
+        visivel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Salvar o estado do lembrarDeMim no SharedPreferences
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("lembrarDeMim", isLembrarDeMimChecked());
+                editor.apply();
+            }
+        });
+
+        visivel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Alterna a visibilidade da senha com base no estado do CheckBox
+                isPasswordVisible = isChecked;
+                togglePasswordVisibility();
+            }
+        });
     }
 
     private void findById() {
@@ -115,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityMVP.V
         enterButton = findViewById(R.id.button_enter);
         cadastrarTextView = findViewById(R.id.text_cadastrar);
         lembrarDeMim = findViewById(R.id.radio_remember_me);
+        visivel = findViewById(R.id.showSenha);
 
     }
 
@@ -128,6 +157,23 @@ public class MainActivity extends AppCompatActivity implements MainActivityMVP.V
 
     public void showMessage(String Message) {
         Toast.makeText(this, Message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void togglePasswordVisibility() {
+        // Alterna entre mostrar e ocultar a senha
+        if (isPasswordVisible) {
+            showPassword();
+        } else {
+            hidePassword();
+        }
+    }
+
+    private void showPassword() {
+        textPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+    }
+
+    private void hidePassword() {
+        textPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
     }
 
 }

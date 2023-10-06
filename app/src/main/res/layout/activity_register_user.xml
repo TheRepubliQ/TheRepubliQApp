@@ -172,18 +172,28 @@
 
     <EditText
         android:id="@+id/edittext_Senha"
-        android:layout_width="263dp"
-        android:layout_height="55dp"
+        android:layout_width="239dp"
+        android:layout_height="56dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/edittext_rounded_background"
         android:hint="Senha"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:padding="10dp"
         android:textAlignment="center"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.591"
+        app:layout_constraintHorizontal_bias="0.079"
         app:layout_constraintStart_toEndOf="@+id/senha"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_email" />
+
+    <CheckBox
+        android:id="@+id/showSenha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/edittext_Senha"
         app:layout_constraintTop_toBottomOf="@+id/edittext_email" />
 
     <Spinner
