@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -61,13 +62,6 @@ public class ListResidences extends AppCompatActivity implements ListResidencesM
     }
 
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-
     public Context getContext() {
         return this;
     }
@@ -76,6 +70,15 @@ public class ListResidences extends AppCompatActivity implements ListResidencesM
     public void showMessage(String erro_ao_buscar_usuário) {
         Toast.makeText(this, erro_ao_buscar_usuário, Toast.LENGTH_SHORT).show();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // Fecha a atividade atual
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

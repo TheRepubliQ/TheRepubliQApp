@@ -3,6 +3,7 @@ package br.edu.ifsp.tcc.apprepublic.view;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -10,6 +11,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.util.Objects;
 
 import br.edu.ifsp.tcc.apprepublic.mvp.ChangeUserInformationMVP;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
@@ -66,6 +69,10 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
         edittextEmail = findViewById(R.id.edittext_email);
         spinnerGenero = findViewById(R.id.spinner_Genero);
         checkboxProp = findViewById(R.id.checkbox_Prop);
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Alterar Seus Dados");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     public Context getContext() {
@@ -76,6 +83,15 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
     public void showMessage(String mensage) {
         Toast.makeText(this, mensage, Toast.LENGTH_SHORT).show();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // Fecha a atividade atual
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

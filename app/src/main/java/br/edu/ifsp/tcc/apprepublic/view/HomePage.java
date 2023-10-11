@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import br.edu.ifsp.tcc.apprepublic.mvp.HomePageMVP;
 import br.edu.ifsp.tcc.apprepublic.presenter.HomePagePresenter;
 import br.edu.ifsp.tcc.apprepublic.presenter.ListResidencesPresenter;
@@ -37,8 +39,7 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
     }
 
     private void findById() {
-        getSupportActionBar().setTitle("The RepupliQ");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Bem Vindos");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
     }

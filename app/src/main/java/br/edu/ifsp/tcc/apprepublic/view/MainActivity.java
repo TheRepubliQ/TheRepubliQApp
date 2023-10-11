@@ -27,112 +27,64 @@ public class MainActivity extends AppCompatActivity implements MainActivityMVP.V
     private TextView cadastrarTextView;
     private SharedPreferences sharedPreferences;
     private CheckBox lembrarDeMim;
-
     private CheckBox visivel;
-
-
-    private MainActivityPresenter presenter;
 
     private boolean isPasswordVisible = true;
 
+    private MainActivityPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findById();
-        setListener();
+        setListeners();
         presenter = new MainActivityPresenter(this, this);
 
-        //CRIAÇÃO DO SHARED PREFERENCES PARA GUARDAR USERNAME DO USUARIO
         sharedPreferences = getSharedPreferences("login_preferences", Context.MODE_PRIVATE);
         boolean lembrarDeMimChecked = sharedPreferences.getBoolean("lembrarDeMim", false);
         lembrarDeMim.setChecked(lembrarDeMimChecked);
         if (lembrarDeMimChecked) {
-            String savedUser = sharedPreferences.getString("usuario", "");
-            textUser.setText(savedUser);
+            textUser.setText(sharedPreferences.getString("usuario", ""));
         }
-
     }
 
-    private void setListener() {
-        enterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Obtenha os valores dos campos de usuário e senha
-                String user = textUser.getText().toString();
-                String password = textPassword.getText().toString();
+    private void setListeners() {
+        enterButton.setOnClickListener(v -> {
+            String user = textUser.getText().toString();
+            String password = textPassword.getText().toString();
 
-                // Verifique se os campos estão preenchidos
-                if (user.isEmpty() || password.isEmpty()) {
-                    // Exiba uma mensagem de erro indicando que ambos os campos devem ser preenchidos
-                    Toast.makeText(getApplicationContext(), "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show();
+            if (user.isEmpty() || password.isEmpty()) {
+                Toast.makeText(getApplicationContext(), "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show();
+            } else {
+                presenter.login(user, password);
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("lembrarDeMim", isLembrarDeMimChecked());
+                editor.apply();
+
+                if (isLembrarDeMimChecked()) {
+                    editor.putString("usuario", user);
                 } else {
-                    // Os campos estão preenchidos, prossiga com a lógica de login
-                    presenter.login(user, password);
-
-                    // Salvar o estado do lembrarDeMim no SharedPreferences
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("lembrarDeMim", isLembrarDeMimChecked());
-                    editor.apply();
-
-                    if (isLembrarDeMimChecked()) {
-                        // Salvar o usuário no SharedPreferences
-                        editor.putString("usuario", user);
-                        editor.apply();
-                    } else {
-                        // Remover o usuário do SharedPreferences
-                        editor.remove("usuario");
-                        editor.apply();
-                    }
+                    editor.remove("usuario");
                 }
-            }
-        });
-
-        cadastrarTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Adicione aqui a lógica para lidar com o clique no texto "Cadastrar"
-                presenter.cadast();
-            }
-        });
-
-        esqueciSenha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Adicione aqui a lógica para lidar com o clique no texto "Esqueci minha senha"
-                presenter.altSenha();
-            }
-        });
-
-        lembrarDeMim.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Salvar o estado do lembrarDeMim no SharedPreferences
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("lembrarDeMim", isLembrarDeMimChecked());
                 editor.apply();
             }
         });
 
+        cadastrarTextView.setOnClickListener(v -> presenter.cadast());
 
-        visivel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Salvar o estado do lembrarDeMim no SharedPreferences
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("lembrarDeMim", isLembrarDeMimChecked());
-                editor.apply();
-            }
+        esqueciSenha.setOnClickListener(v -> presenter.altSenha());
+
+        lembrarDeMim.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("lembrarDeMim", isChecked);
+            editor.apply();
         });
 
-        visivel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Alterna a visibilidade da senha com base no estado do CheckBox
-                isPasswordVisible = isChecked;
-                togglePasswordVisibility();
-            }
+        visivel.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            isPasswordVisible = isChecked;
+            togglePasswordVisibility();
         });
     }
 
@@ -144,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityMVP.V
         cadastrarTextView = findViewById(R.id.text_cadastrar);
         lembrarDeMim = findViewById(R.id.radio_remember_me);
         visivel = findViewById(R.id.showSenha);
-
     }
 
     public boolean isLembrarDeMimChecked() {
@@ -155,25 +106,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityMVP.V
         return this;
     }
 
-    public void showMessage(String Message) {
-        Toast.makeText(this, Message, Toast.LENGTH_SHORT).show();
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     private void togglePasswordVisibility() {
-        // Alterna entre mostrar e ocultar a senha
-        if (isPasswordVisible) {
-            showPassword();
-        } else {
-            hidePassword();
-        }
-    }
+        int inputType = isPasswordVisible ?
+                InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD :
+                (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
-    private void showPassword() {
-        textPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        textPassword.setInputType(inputType);
     }
-
-    private void hidePassword() {
-        textPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-    }
-
 }

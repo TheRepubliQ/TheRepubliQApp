@@ -4,18 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import br.edu.ifsp.tcc.apprepublic.model.user.Gender;
 import br.edu.ifsp.tcc.apprepublic.mvp.RegisterUserMVP;
-import br.edu.ifsp.tcc.apprepublic.presenter.MainActivityPresenter;
 import br.edu.ifsp.tcc.apprepublic.presenter.RegisterUserPresenter;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
 
@@ -30,45 +33,38 @@ public class RegisterUser extends AppCompatActivity implements RegisterUserMVP.V
     private Spinner spinnerGenero;
     private CheckBox checkboxProp;
     private Button btnCadastrar;
-
+    private CheckBox visivel;
+    private boolean isPasswordVisible = true;
     private RegisterUserPresenter presenter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user);
         presenter = new RegisterUserPresenter(this, this);
-    
-
         findById();
-        populateGenderSpinner(); // Chame o método para preencher o Spinner
-        setListener();
-
+        populateGenderSpinner();
+        setListeners();
     }
 
-    private void setListener() {
+    private void setListeners() {
+        btnCadastrar.setOnClickListener(v -> {
+            String login = edittextLogin.getText().toString();
+            String cpf = edittextCpf.getText().toString();
+            String telefone = edittextTel.getText().toString();
+            String dataNascimento = edittextTexDtaNascimento.getText().toString();
+            String email = edittextEmail.getText().toString();
+            String senha = edittextSenha.getText().toString();
+            String genero = spinnerGenero.getSelectedItem().toString();
+            boolean isOfertado = checkboxProp.isChecked();
+            presenter.register(login, cpf, telefone, dataNascimento, email, senha, genero, isOfertado);
+        });
 
-        btnCadastrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Lógica para lidar com o clique no botão de cadastrar
-                // Você pode acessar os valores dos campos de entrada aqui, por exemplo:
-                String login = edittextLogin.getText().toString();
-                String cpf = edittextCpf.getText().toString();
-                String telefone = edittextTel.getText().toString();
-                String dataNascimento = edittextTexDtaNascimento.getText().toString();
-                String email = edittextEmail.getText().toString();
-                String senha = edittextSenha.getText().toString();
-                String genero = spinnerGenero.getSelectedItem().toString();
-                boolean isOfertado = checkboxProp.isChecked();
-
-                presenter.register(login, cpf, telefone, dataNascimento, email, senha, genero, isOfertado);
-
-            }
+        visivel.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            isPasswordVisible = isChecked;
+            togglePasswordVisibility();
         });
     }
-
 
     private void findById() {
         edittextLogin = findViewById(R.id.edittext_Login);
@@ -80,6 +76,10 @@ public class RegisterUser extends AppCompatActivity implements RegisterUserMVP.V
         spinnerGenero = findViewById(R.id.spinner_Genero);
         checkboxProp = findViewById(R.id.checkbox_Prop);
         btnCadastrar = findViewById(R.id.btn_cad);
+        visivel = findViewById(R.id.showSenha);
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Cadastrar Novo Usuario");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public Context getContext() {
@@ -87,17 +87,14 @@ public class RegisterUser extends AppCompatActivity implements RegisterUserMVP.V
     }
 
     @Override
-    public void showMessage(String mensage) {
-        Toast.makeText(this, mensage, Toast.LENGTH_SHORT).show();
-
-
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     private void populateGenderSpinner() {
         ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // Adicione os valores possíveis de gênero ao adaptador
         for (Gender gender : Gender.values()) {
             genderAdapter.add(gender.getDescription());
         }
@@ -105,4 +102,20 @@ public class RegisterUser extends AppCompatActivity implements RegisterUserMVP.V
         spinnerGenero.setAdapter(genderAdapter);
     }
 
+    private void togglePasswordVisibility() {
+        int inputType = isPasswordVisible ?
+                InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD :
+                (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+        edittextSenha.setInputType(inputType);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // Fecha a atividade atual
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
