@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import java.util.Objects;
 
+import br.edu.ifsp.tcc.apprepublic.model.home.Tipo;
 import br.edu.ifsp.tcc.apprepublic.mvp.RegisterResidenceMVP;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
 
@@ -34,6 +36,7 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
 
         findById();
         setListener();
+        populateTipoMoradiaSpinner();
     }
 
     private void setListener() {
@@ -87,4 +90,21 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void populateTipoMoradiaSpinner() {
+        Spinner spinnerTipoMoradia = findViewById(R.id.spinner_TipoMoradia);
+
+        // Crie um ArrayAdapter para preencher o Spinner
+        ArrayAdapter<String> tipoMoradiaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        tipoMoradiaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Adicione os valores do enum Tipo ao adaptador
+        for (Tipo tipo : Tipo.values()) {
+            tipoMoradiaAdapter.add(tipo.getDescription());
+        }
+
+        // Associe o adaptador ao Spinner
+        spinnerTipoMoradia.setAdapter(tipoMoradiaAdapter);
+    }
+
 }

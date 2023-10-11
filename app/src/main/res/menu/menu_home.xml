@@ -2,15 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="br.edu.ifsp.tcc.apprepublic.view.HomePage">
+    tools:context="br.edu.ifsp.tcc.apprepublic.view.HomePage"
+    app:popupTheme="@style/AppTheme.PopupMenu">
 
     <item
         android:id="@+id/action_edit_profile"
         android:title="Editar Perfil"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" /> <!-- Configura "never" para evitar que esta opção apareça na barra de ação -->
 
     <item
         android:id="@+id/action_list_residences"
         android:title="Listar Residências"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" /> <!-- Configura "never" para evitar que esta opção apareça na barra de ação -->
+
 </menu>

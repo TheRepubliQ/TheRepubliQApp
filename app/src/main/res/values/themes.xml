@@ -16,4 +16,9 @@
         <item name="windowNoTitle">false</item>
     </style>
 
+    <style name="AppTheme.PopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@drawable/styles</item>
+    </style>
+
+
 </resources>

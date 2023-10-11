@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import java.util.Objects;
 
+import br.edu.ifsp.tcc.apprepublic.model.user.Gender;
 import br.edu.ifsp.tcc.apprepublic.mvp.ChangeUserInformationMVP;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
 
@@ -34,6 +36,7 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
         setContentView(R.layout.activity_change_user_information);
 
         findById();
+        populateGenderSpinner();
         setListener();
     }
 
@@ -92,6 +95,23 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void populateGenderSpinner() {
+        Spinner spinnerGenero = findViewById(R.id.spinner_Genero);
+
+        // Crie um ArrayAdapter para preencher o Spinner
+        ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Adicione os valores possíveis de gênero ao adaptador
+        for (Gender gender : Gender.values()) {
+            genderAdapter.add(gender.getDescription());
+        }
+
+        // Associe o adaptador ao Spinner
+        spinnerGenero.setAdapter(genderAdapter);
     }
 
 }
