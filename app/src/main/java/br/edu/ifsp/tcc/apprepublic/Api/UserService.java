@@ -32,4 +32,7 @@ public interface UserService {
 
     @PUT("user/{id}/desactive") // Endpoint para desativar um usuário pelo ID
     Call<Void> deactivateUser(@Path("id") Long id);
+
+    @GET("user/testConnection") // Endpoint para testar a conexão com a API
+    Call<String> testConnection();
 }

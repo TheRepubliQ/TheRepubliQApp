@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import br.edu.ifsp.tcc.apprepublic.Api.RESTService;
 import br.edu.ifsp.tcc.apprepublic.mvp.MainActivityMVP;
 import br.edu.ifsp.tcc.apprepublic.presenter.MainActivityPresenter;
 import br.edu.ifsp.tcc.apptherrepubliq.R;

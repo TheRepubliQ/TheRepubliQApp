@@ -1,5 +1,8 @@
 package br.edu.ifsp.tcc.apprepublic.model.home;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Objects;
 
 /*import jakarta.persistence.Embedded;
@@ -19,18 +22,30 @@ public class HomeEntity {
 
   //  @Id
    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SerializedName("id")
+    @Expose
     private Long id;
     //@NotNull
     //@Size(min = 3, max = 200)
+    @SerializedName("descr")
+    @Expose
     private String descr;
    // @Enumerated(EnumType.STRING)
    // @NotNull
+   @SerializedName("tipo")
+   @Expose
     private Tipo tipo;
    // @NotNull
+   @SerializedName("preco")
+   @Expose
     private float preco;
    // @NotNull
+   @SerializedName("ofertado")
+   @Expose
     private Boolean ofertado;
     //@Embedded
+    @SerializedName("endereco")
+    @Expose
     private Endereco endereco;
 
 
@@ -70,20 +85,6 @@ public class HomeEntity {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        HomeEntity other = (HomeEntity) obj;
-        return Objects.equals(id, other.id);
-    }
+
 }
 

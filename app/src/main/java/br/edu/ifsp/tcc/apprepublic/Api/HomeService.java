@@ -24,6 +24,6 @@ public interface HomeService {
     @PUT("home/{id}") // Endpoint para atualizar uma casa pelo ID
     Call<HomeEntity> updateHome(@Path("id") Long id, @Body HomeEntity home);
 
-    @DELETE("home/{id}") // Endpoint para deletar uma casa pelo ID
+    @DELETE("home/{id}")  // Endpoint para deletar uma casa pelo ID
     Call<Void> deleteHome(@Path("id") Long id);
 }
