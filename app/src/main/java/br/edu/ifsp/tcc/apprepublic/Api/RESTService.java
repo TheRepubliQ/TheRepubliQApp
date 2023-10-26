@@ -7,7 +7,7 @@
     import okhttp3.CertificatePinner;
     
     public class RESTService {
-        private static final String BASE_URL = "https://192.168.0.19:8080/";
+        private static final String BASE_URL = "http://192.168.0.19:8080/";
 
         static OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .hostnameVerifier((hostname, session) -> true)  // Desabilitar a verificação do nome do host
