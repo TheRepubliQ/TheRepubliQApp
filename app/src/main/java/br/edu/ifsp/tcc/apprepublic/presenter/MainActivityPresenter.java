@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import br.edu.ifsp.tcc.apprepublic.Api.AuthService;
 import br.edu.ifsp.tcc.apprepublic.Api.RESTService;
 import br.edu.ifsp.tcc.apprepublic.Api.TestService;
+import br.edu.ifsp.tcc.apprepublic.Api.UserService;
+import br.edu.ifsp.tcc.apprepublic.model.user.User;
 import br.edu.ifsp.tcc.apprepublic.mvp.MainActivityMVP;
 import br.edu.ifsp.tcc.apprepublic.security.TokenResponse;
 import br.edu.ifsp.tcc.apprepublic.view.HomePage;
@@ -41,12 +45,14 @@ public class MainActivityPresenter implements MainActivityMVP.Presenter {
 
             call.enqueue(new Callback<TokenResponse>() {
                 @Override
-                public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
+                public void onResponse(@NonNull Call<TokenResponse> call, @NonNull Response<TokenResponse> response) {
                     if (response.isSuccessful()) {
                         TokenResponse tokenResponse = response.body();
                         if (tokenResponse != null) {
                             String accessToken = tokenResponse.getAccessToken();
+
                             Log.d("LoginDebug", "Token de Acesso: " + accessToken);
+                            getUserIDByLogin(accessToken, login);
                             view.showMessage("Login Bem Sucedido");
 
                             SharedPreferences sharedPreferences = context.getSharedPreferences("Prefes", Context.MODE_PRIVATE);
@@ -71,38 +77,46 @@ public class MainActivityPresenter implements MainActivityMVP.Presenter {
         }
     }
 
+    public void getUserIDByLogin(String accessToken, String login) {
+        if (login.isEmpty()) {
+            view.showMessage("Preencha o campo de login");
+        } else {
+            UserService userService = RESTService.getUserService();
 
-    public void testConect() {
-        // Use o TestService para fazer a solicitação de teste de conexão
-        TestService testService = RESTService.getTestService();
+            Call<User> call = userService.getUserByLogin(accessToken, login);
 
-        Call<String> testCall = testService.testEndpoint();
+            call.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if (response.isSuccessful()) {
+                        User user = response.body();
+                        if (user != null) {
+                            Long user_id = user.getId();
 
-        testCall.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
-                    // Conexão com o servidor de teste bem-sucedida
-                    // Você pode adicionar aqui qualquer tratamento ou ações necessárias
-                    // após a conexão com o servidor de teste.
-                    // Por exemplo, exibir uma mensagem ou executar outra ação.
-                    view.showMessage("Conexão com o servidor de teste bem-sucedida");
-                } else {
-                    // Trate o caso de falha na conexão
-                    // Por exemplo, exibir uma mensagem de erro.
-                    view.showMessage("Falha na conexão com o servidor de teste");
+                            // Agora você tem o ID do usuário. Você pode armazená-lo nas preferências compartilhadas.
+                            SharedPreferences sharedPreferences = context.getSharedPreferences("Prefes", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putLong("user_id", user_id);
+                            editor.apply();
+
+                            // Continue com o login ou qualquer outra ação necessária.
+                            // Neste exemplo, vou apenas mostrar uma mensagem.
+                            view.showMessage("ID do usuário obtido com sucesso: " + user_id);
+                        } else {
+                            view.showMessage("Usuário não encontrado");
+                        }
+                    } else {
+                        view.showMessage("Falha ao buscar o usuário");
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                t.printStackTrace();
-                // Trate erros de rede ou outros erros aqui
-                // Por exemplo, exibir uma mensagem de erro ou fazer outra ação.
-                view.showMessage(t.getMessage());
-                System.out.println("Erro foi: " + t.getMessage());
-            }
-        });
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    t.printStackTrace();
+                    view.showMessage("Erro na solicitação: " + t.getMessage());
+                }
+            });
+        }
     }
 
     @Override

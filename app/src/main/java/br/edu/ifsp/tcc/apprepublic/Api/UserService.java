@@ -7,6 +7,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -21,6 +22,8 @@ public interface UserService {
     @GET("user/{id}") // Endpoint para buscar um usuário pelo ID
     Call<User> getUserById(@Path("id") Long id);
 
+    @GET("user/{login}") // Endpoint para buscar um usuário pelo ID
+    Call<User> getUserByLogin(@Header("Authorization") String authorization, @Path("login") String login);
     @PUT("user/{id}") // Endpoint para atualizar um usuário pelo ID
     Call<User> updateUser(@Path("id") Long id, @Body User user);
 

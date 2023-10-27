@@ -40,7 +40,12 @@ public class ListResidencesAdapter extends RecyclerView.Adapter<ListResidencesAd
 
     @Override
     public int getItemCount() {
-        return residenceList.size();
+        return residenceList != null ? residenceList.size() : 0;
+
+    }
+
+    public void setHomeList(List<HomeEntity> residenceList) {
+        this.residenceList = residenceList;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -22,6 +22,9 @@ public interface HomeService {
     @GET("home/{id}") // Endpoint para buscar uma casa pelo ID
     Call<HomeEntity> getHomeById(@Header("Authorization") String authorization, @Path("id") Long id);
 
+    @GET("home/{user_id}") // Endpoint para buscar uma casa pelo ID
+    Call<List<HomeEntity>> listHomesByUserId(@Header("Authorization") String authorization, @Path("user_id") Long id);
+
     @PUT("home/{id}") // Endpoint para atualizar uma casa pelo ID
     Call<HomeEntity> updateHome(@Header("Authorization") String authorization, @Path("id") Long id, @Body HomeEntity home);
 

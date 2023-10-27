@@ -10,8 +10,6 @@ public class TokenResponse {
     @SerializedName("token_type")
     private String tokenType;
 
-
-
     public String getAccessToken() {
         return accessToken;
     }
