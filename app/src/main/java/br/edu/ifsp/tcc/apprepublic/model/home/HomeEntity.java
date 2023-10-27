@@ -3,8 +3,6 @@ package br.edu.ifsp.tcc.apprepublic.model.home;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Objects;
-
 /*import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
