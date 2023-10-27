@@ -29,8 +29,6 @@ import retrofit2.Response;
 
 public class HomePage extends AppCompatActivity implements HomePageMVP.View {
 
-    private RecyclerView mRecyclerView;
-
     private HomePagePresenter presenter;
 
     private HomePageAdapter mAdapter; // Adicione uma instância do adaptador
@@ -41,7 +39,7 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         presenter = new HomePagePresenter(this,this);
-        mRecyclerView = findViewById(R.id.recyclerview_service);
+        RecyclerView mRecyclerView = findViewById(R.id.recyclerview_service);
         mAdapter = new HomePageAdapter(this, homeList);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -55,6 +53,7 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
 
         Call<List<HomeEntity>> call = homeService.listHomes();
         call.enqueue(new Callback<List<HomeEntity>>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(Call<List<HomeEntity>> call, Response<List<HomeEntity>> response) {
                 if (response.isSuccessful()) {
