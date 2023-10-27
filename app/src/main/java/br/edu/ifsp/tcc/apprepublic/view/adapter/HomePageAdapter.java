@@ -41,7 +41,12 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return homeList.size();
+        return homeList != null ? homeList.size() : 0;
+    }
+
+    public void setHomeList(List<HomeEntity> homeList) {
+        this.homeList = homeList;
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

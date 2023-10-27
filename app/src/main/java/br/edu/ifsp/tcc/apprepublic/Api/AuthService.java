@@ -17,3 +17,4 @@ public interface AuthService {
             @Field("grant_type") String grantType
     );
 }
+
