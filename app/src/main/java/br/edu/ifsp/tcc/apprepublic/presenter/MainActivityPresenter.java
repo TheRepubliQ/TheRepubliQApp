@@ -19,6 +19,10 @@ import retrofit2.Response;
 import android.content.Context;
 import android.content.Intent;
 import android.app.Activity;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
 import retrofit2.Call;
 import retrofit2.Response;
 import java.io.IOException;
@@ -36,12 +40,15 @@ public class MainActivityPresenter implements MainActivityMVP.Presenter {
 
     @Override
     public void login(String login, String password) {
+        //testConect();
 
-        testConect();
-
-         if (login.isEmpty() || password.isEmpty()) {
+        if (login.isEmpty() || password.isEmpty()) {
             view.showMessage("Preencha todos os campos");
         } else {
+            // Exibir os valores de login e password antes de fazer a solicitação
+            Log.d("LoginDebug", "Login: " + login);
+            Log.d("LoginDebug", "Password: " + password);
+
             // Use o AuthService para fazer a solicitação de autenticação
             AuthService authService = RESTService.getAuthService();
 
@@ -50,12 +57,15 @@ public class MainActivityPresenter implements MainActivityMVP.Presenter {
 
             call.enqueue(new Callback<TokenResponse>() {
                 @Override
-                public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
+                public void onResponse(@NonNull Call<TokenResponse> call, @NonNull Response<TokenResponse> response) {
                     if (response.isSuccessful()) {
-                        // Login bem-sucedido, vá para a próxima atividade
-                        Intent intent = new Intent(context, HomePage.class);
-                        view.showMessage("Login bem-sucedido");
-                        context.startActivity(intent);
+                        TokenResponse tokenResponse = response.body();
+                        if (tokenResponse != null) {
+                            String accessToken = tokenResponse.getAccessToken();
+                            // Log para exibir o token de acesso
+                            Log.d("LoginDebug", "Token de Acesso: " + accessToken);
+                        }
+                        // Resto do código para redirecionar para a próxima atividade e mostrar uma mensagem de login bem-sucedido
                     } else {
                         // Trate o caso de login sem sucesso (usuário não encontrado ou senha incorreta)
                         view.showMessage("Usuário não encontrado ou senha incorreta");
@@ -70,6 +80,7 @@ public class MainActivityPresenter implements MainActivityMVP.Presenter {
             });
         }
     }
+
 
     public void testConect() {
         // Use o TestService para fazer a solicitação de teste de conexão
