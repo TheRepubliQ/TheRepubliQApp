@@ -1,17 +1,24 @@
 package br.edu.ifsp.tcc.apprepublic.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.List;
 
@@ -34,6 +41,7 @@ public class ListResidences extends AppCompatActivity implements ListResidencesM
 
     private ListResidencesAdapter mAdapter;
     private List<HomeEntity> homeList;
+    private EditText editTextSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +53,8 @@ public class ListResidences extends AppCompatActivity implements ListResidencesM
         setListener();
         initializeRecyclerView();
         loadDataFromApi();
+        setupSearch();
+
     }
 
     private void initializeRecyclerView() {
@@ -123,5 +133,37 @@ public class ListResidences extends AppCompatActivity implements ListResidencesM
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setupSearch() {
+        editTextSearch = findViewById(R.id.editTextSearch);
+        editTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Não é necessário implementar isso
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                filterItems(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Não é necessário implementar isso
+            }
+        });
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void filterItems(String query) {
+        List<HomeEntity> filteredList = new ArrayList<>();
+        for (HomeEntity entity : homeList) {
+            if (entity.getDescr().toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(entity);
+            }
+        }
+        mAdapter.setHomeList(filteredList);
+        mAdapter.notifyDataSetChanged();
     }
 }

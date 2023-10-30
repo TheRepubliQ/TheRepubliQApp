@@ -11,11 +11,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,6 +43,8 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
     private HomePageAdapter mAdapter;
     private List<HomeEntity> homeList;
 
+    private EditText editTextSearch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +60,10 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
         setListener();
         initializeRecyclerView();
         loadDataFromApi(accessToken);
+        setupSearch();
     }
+
+
 
     private void initializeRecyclerView() {
         RecyclerView mRecyclerView = findViewById(R.id.recyclerview_service);
@@ -126,5 +135,37 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void setupSearch() {
+        editTextSearch = findViewById(R.id.editTextSearch);
+        editTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Não é necessário implementar isso
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                filterItems(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Não é necessário implementar isso
+            }
+        });
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void filterItems(String query) {
+        List<HomeEntity> filteredList = new ArrayList<>();
+        for (HomeEntity entity : homeList) {
+            if (entity.getDescr().toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(entity);
+            }
+        }
+        mAdapter.setHomeList(filteredList);
+        mAdapter.notifyDataSetChanged();
     }
 }
