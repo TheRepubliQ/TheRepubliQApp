@@ -1,5 +1,6 @@
 package br.edu.ifsp.tcc.apprepublic.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -8,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -91,10 +93,13 @@ public class ListResidences extends AppCompatActivity implements ListResidencesM
         HomeService homeService = RESTService.getHomeService();
         String authorizationHeader = "Bearer " + accessToken;
 
-        Call<List<HomeEntity>> call = homeService.listHomesByUserId(authorizationHeader, getUserId());
+        Long id = getUserId();
+
+        Call<List<HomeEntity>> call = homeService.listHomesByUserId(authorizationHeader, id);
         call.enqueue(new Callback<List<HomeEntity>>() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
-            public void onResponse(Call<List<HomeEntity>> call, Response<List<HomeEntity>> response) {
+            public void onResponse(@NonNull Call<List<HomeEntity>> call, @NonNull Response<List<HomeEntity>> response) {
                 if (response.isSuccessful()) {
                     homeList = response.body();
                     mAdapter.setHomeList(homeList); // Defina os dados no adaptador
@@ -108,13 +113,15 @@ public class ListResidences extends AppCompatActivity implements ListResidencesM
             @Override
             public void onFailure(Call<List<HomeEntity>> call, Throwable t) {
                 showMessage("Erro na solicitação da API: " + t.getMessage());
+                Log.d("Erro na solicitação da API: " , t.getMessage());
+
             }
         });
     }
 
     private long getUserId() {
         SharedPreferences sharedPreferences = getSharedPreferences("Prefes", Context.MODE_PRIVATE);
-        return sharedPreferences.getLong("user_id", -1); // Retorne -1 se o ID não estiver disponível
+        return sharedPreferences.getLong("userId", -1); // Retorne -1 se o ID não estiver disponível
     }
 
     public Context getContext() {

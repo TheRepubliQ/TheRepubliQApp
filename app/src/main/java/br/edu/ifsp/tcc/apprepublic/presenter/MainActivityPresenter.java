@@ -50,14 +50,16 @@ public class MainActivityPresenter implements MainActivityMVP.Presenter {
                         TokenResponse tokenResponse = response.body();
                         if (tokenResponse != null) {
                             String accessToken = tokenResponse.getAccessToken();
+                            Long userId = tokenResponse.getUserId();
 
                             Log.d("LoginDebug", "Token de Acesso: " + accessToken);
-                            getUserIDByLogin(accessToken, login);
+                            Log.d("idUser", "User ID: " + userId);
                             view.showMessage("Login Bem Sucedido");
 
                             SharedPreferences sharedPreferences = context.getSharedPreferences("Prefes", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("accessToken", accessToken);
+                            editor.putLong("userId", userId);
                             editor.apply();
 
                             Intent intent = new Intent(context, HomePage.class);
@@ -76,49 +78,6 @@ public class MainActivityPresenter implements MainActivityMVP.Presenter {
             });
         }
     }
-
-    public void getUserIDByLogin(String accessToken, String login) {
-        if (login.isEmpty()) {
-            view.showMessage("Preencha o campo de login");
-        } else {
-            UserService userService = RESTService.getUserService();
-
-            Call<User> call = userService.getUserByLogin(accessToken, login);
-
-            call.enqueue(new Callback<User>() {
-                @Override
-                public void onResponse(Call<User> call, Response<User> response) {
-                    if (response.isSuccessful()) {
-                        User user = response.body();
-                        if (user != null) {
-                            Long user_id = user.getId();
-
-                            // Agora você tem o ID do usuário. Você pode armazená-lo nas preferências compartilhadas.
-                            SharedPreferences sharedPreferences = context.getSharedPreferences("Prefes", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putLong("user_id", user_id);
-                            editor.apply();
-
-                            // Continue com o login ou qualquer outra ação necessária.
-                            // Neste exemplo, vou apenas mostrar uma mensagem.
-                            view.showMessage("ID do usuário obtido com sucesso: " + user_id);
-                        } else {
-                            view.showMessage("Usuário não encontrado");
-                        }
-                    } else {
-                        view.showMessage("Falha ao buscar o usuário");
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<User> call, Throwable t) {
-                    t.printStackTrace();
-                    view.showMessage("Erro na solicitação: " + t.getMessage());
-                }
-            });
-        }
-    }
-
     @Override
     public void cadast() {
         Intent intent = new Intent(context, RegisterUser.class);

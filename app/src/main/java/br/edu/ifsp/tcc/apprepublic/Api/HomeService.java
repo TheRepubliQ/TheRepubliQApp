@@ -13,21 +13,21 @@ import retrofit2.http.Path;
 import retrofit2.http.Body;
 
 public interface HomeService {
-    @GET("home") // Endpoint para listar todas as casas
+    @GET("homeEdit") // Endpoint para listar todas as casas
     Call<List<HomeEntity>> listHomes(@Header("Authorization") String authorization);
 
-    @POST("home") // Endpoint para criar uma nova casa
+    @POST("homeEdit") // Endpoint para criar uma nova casa
     Call<HomeEntity> createHome(@Header("Authorization") String authorization, @Body HomeEntity home);
 
-    @GET("home/{id}") // Endpoint para buscar uma casa pelo ID
+    @GET("homeEdit/{id}") // Endpoint para buscar uma casa pelo ID
     Call<HomeEntity> getHomeById(@Header("Authorization") String authorization, @Path("id") Long id);
 
-    @GET("home/{user_id}") // Endpoint para buscar uma casa pelo ID
-    Call<List<HomeEntity>> listHomesByUserId(@Header("Authorization") String authorization, @Path("user_id") Long id);
+    @GET("homeEdit/listHomes/{userId}") // Endpoint para buscar casas por usuário
+    Call<List<HomeEntity>> listHomesByUserId(@Header("Authorization") String authorization, @Path("userId") Long userId);
 
-    @PUT("home/{id}") // Endpoint para atualizar uma casa pelo ID
+    @PUT("homeEdit/{id}") // Endpoint para atualizar uma casa pelo ID
     Call<HomeEntity> updateHome(@Header("Authorization") String authorization, @Path("id") Long id, @Body HomeEntity home);
 
-    @DELETE("home/{id}")  // Endpoint para deletar uma casa pelo ID
+    @DELETE("homeEdit/{id}")  // Endpoint para deletar uma casa pelo ID
     Call<Void> deleteHome(@Header("Authorization") String authorization, @Path("id") Long id);
 }

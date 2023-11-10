@@ -22,8 +22,9 @@ public interface UserService {
     @GET("user/{id}") // Endpoint para buscar um usuário pelo ID
     Call<User> getUserById(@Path("id") Long id);
 
-    @GET("user/{login}") // Endpoint para buscar um usuário pelo ID
+    @GET("user/log/{login}") // Endpoint para buscar um usuário pelo ID
     Call<User> getUserByLogin(@Header("Authorization") String authorization, @Path("login") String login);
+
     @PUT("user/{id}") // Endpoint para atualizar um usuário pelo ID
     Call<User> updateUser(@Path("id") Long id, @Body User user);
 
