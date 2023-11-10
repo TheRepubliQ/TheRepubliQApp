@@ -1,5 +1,6 @@
 package br.edu.ifsp.tcc.apprepublic.view.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import br.edu.ifsp.tcc.apprepublic.model.home.HomeEntity;
+import br.edu.ifsp.tcc.apprepublic.mvp.ListResidencesMVP;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
 
 public class ListResidencesAdapter extends RecyclerView.Adapter<ListResidencesAdapter.ViewHolder> {
     private Context context;
     private List<HomeEntity> residenceList;
+
+    private ListResidencesMVP.Presenter presenter;
 
     public ListResidencesAdapter(Context context, List<HomeEntity> residenceList) {
         this.context = context;
@@ -33,10 +37,37 @@ public class ListResidencesAdapter extends RecyclerView.Adapter<ListResidencesAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         HomeEntity residence = residenceList.get(position);
 
-        // Preencha os elementos do card com os dados da residência
         holder.textTitle.setText(residence.getDescr());
 
+        if(residence.getOfertado()){
+            holder.imageEdit.setColorFilter(context.getColor(R.color.yellow));
+        }else{
+            holder.imageEdit.setColorFilter(context.getColor(R.color.gray));
+        }
+        holder.imageEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(residence.getOfertado()){
+                    desativar(residence);
+                }else{
+                    ativar(residence);
+                }
+            }
+        });
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void desativar(HomeEntity residence){
+        presenter.desativar(residence);
+        notifyDataSetChanged();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void ativar(HomeEntity residence){
+        presenter.ativar(residence);
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public int getItemCount() {

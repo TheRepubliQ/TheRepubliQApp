@@ -22,21 +22,19 @@ public interface UserService {
     @GET("user/{id}") // Endpoint para buscar um usuário pelo ID
     Call<User> getUserById(@Path("id") Long id);
 
-    @GET("user/log/{login}") // Endpoint para buscar um usuário pelo ID
-    Call<User> getUserByLogin(@Header("Authorization") String authorization, @Path("login") String login);
+    @GET("user/email/{email}") // Endpoint para buscar um usuário pelo ID
+    Call<User> getUserByEmail(@Header("Authorization") String authorization, @Path("email") String email);
 
     @PUT("user/{id}") // Endpoint para atualizar um usuário pelo ID
-    Call<User> updateUser(@Path("id") Long id, @Body User user);
+    Call<User> updateUser(@Header("Authorization") String authorization, @Path("id") Long id, @Body User user);
 
     @DELETE("user/{id}") // Endpoint para deletar um usuário pelo ID
     Call<Void> deleteUser(@Path("id") Long id);
 
-    @PUT("user/{id}/active") // Endpoint para ativar um usuário pelo ID
+    @PUT("user/active/{id}") // Endpoint para ativar um usuário pelo ID
     Call<Void> activateUser(@Path("id") Long id);
 
-    @PUT("user/{id}/desactive") // Endpoint para desativar um usuário pelo ID
+    @PUT("user/desactive/{id}") // Endpoint para desativar um usuário pelo ID
     Call<Void> deactivateUser(@Path("id") Long id);
 
-    @GET("user/testConnection") // Endpoint para testar a conexão com a API
-    Call<String> testConnection();
 }

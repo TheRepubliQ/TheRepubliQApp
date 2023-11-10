@@ -2,6 +2,8 @@ package br.edu.ifsp.tcc.apprepublic.mvp;
 
 import android.content.Context;
 
+import br.edu.ifsp.tcc.apprepublic.model.home.HomeEntity;
+
 public interface ListResidencesMVP {
 
 
@@ -16,5 +18,8 @@ public interface ListResidencesMVP {
 
         void adcionarResidencia();
 
+        void desativar(HomeEntity residence);
+
+        void ativar(HomeEntity residence);
     }
 }

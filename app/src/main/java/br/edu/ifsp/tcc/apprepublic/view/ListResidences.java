@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -29,7 +28,6 @@ import br.edu.ifsp.tcc.apprepublic.Api.RESTService;
 import br.edu.ifsp.tcc.apprepublic.model.home.HomeEntity;
 import br.edu.ifsp.tcc.apprepublic.mvp.ListResidencesMVP;
 import br.edu.ifsp.tcc.apprepublic.presenter.ListResidencesPresenter;
-import br.edu.ifsp.tcc.apprepublic.view.adapter.HomePageAdapter;
 import br.edu.ifsp.tcc.apprepublic.view.adapter.ListResidencesAdapter;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
 import retrofit2.Call;

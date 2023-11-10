@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.Date;
 
 import br.edu.ifsp.tcc.apprepublic.model.user.Gender;
+import br.edu.ifsp.tcc.apprepublic.model.user.User;
 
 public interface ChangeUserInformationMVP {
 
@@ -16,6 +17,6 @@ public interface ChangeUserInformationMVP {
     }
 
     interface Presenter{
-        void changeUserInf(String Login, String Cpf, String tel, Date daaNasci, String email, String senha, Gender genero, Boolean ofertado);
+        void changeUserInf(User user);
     }
 }

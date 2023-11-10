@@ -2,6 +2,7 @@ package br.edu.ifsp.tcc.apprepublic.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,9 +14,11 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 import br.edu.ifsp.tcc.apprepublic.model.user.Gender;
+import br.edu.ifsp.tcc.apprepublic.model.user.User;
 import br.edu.ifsp.tcc.apprepublic.mvp.ChangeUserInformationMVP;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
 
@@ -30,6 +33,7 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
     private Spinner spinnerGenero;
     private CheckBox checkboxProp;
 
+    private  ChangeUserInformationMVP.Presenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,11 +46,10 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
 
     private void setListener() {
 
-
         btnCad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Adicione aqui a lógica para lidar com o clique no botão "Cadastrar"
+                Long id = getUserId();
                 String login = edittextLogin.getText().toString();
                 String cpf = edittextCpf.getText().toString();
                 String tel = edittextTel.getText().toString();
@@ -55,12 +58,23 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
                 String genero = spinnerGenero.getSelectedItem().toString();
                 boolean prop = checkboxProp.isChecked();
 
-                // Implemente a lógica para processar os dados e realizar o cadastro aqui
+
+                User user = new User();
+                user.setId(id);
+                user.setLogin(login);
+                user.setCpf(cpf);
+                user.setTelefone(tel);
+                user.setDataNascimento(LocalDate.parse(dtaNascimento));
+                user.setEmail(email);
+                user.setGender(Gender.valueOf(genero));
+                user.setIsProp(prop);
+
+                presenter.changeUserInf(user);
             }
+
+
         });
 
-
-        // Adicione ouvintes para outros elementos, se necessário
     }
 
     private void findById() {
@@ -86,6 +100,11 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
     public void showMessage(String mensage) {
         Toast.makeText(this, mensage, Toast.LENGTH_SHORT).show();
 
+    }
+
+    private long getUserId() {
+        SharedPreferences sharedPreferences = getSharedPreferences("Prefes", Context.MODE_PRIVATE);
+        return sharedPreferences.getLong("userId", -1); // Retorne -1 se o ID não estiver disponível
     }
 
     @Override

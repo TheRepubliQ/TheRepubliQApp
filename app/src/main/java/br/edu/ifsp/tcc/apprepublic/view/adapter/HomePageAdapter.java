@@ -33,7 +33,6 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         HomeEntity home = homeList.get(position);
 
-        // Preencha os elementos do card com os dados
         holder.textTitleNome.setText(home.getDescr());
         holder.textPreco.setText(String.valueOf(home.getPreco()));
 
