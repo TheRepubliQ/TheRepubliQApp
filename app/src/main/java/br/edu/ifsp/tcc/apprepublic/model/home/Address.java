@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 //import jakarta.validation.constraints.NotNull;
 
 //@Embeddable
-public class Endereco {
+public class Address {
 
     //@NotNull
     @SerializedName("cep")

@@ -37,7 +37,7 @@ public class ListResidencesPresenter implements ListResidencesMVP.Presenter {
 
         HomeService homeService = RESTService.getHomeService();
 
-        Call<HomeEntity> call = homeService.desactivityHome(getAuthorizationToken(), residence.getId(), residence);
+        Call<HomeEntity> call = homeService.desactivityHome(getAuthorizationToken(), residence.getId());
         call.enqueue(new Callback<HomeEntity>() {
             @Override
             public void onResponse(Call<HomeEntity> call, Response<HomeEntity> response) {
@@ -60,7 +60,7 @@ public class ListResidencesPresenter implements ListResidencesMVP.Presenter {
 
         HomeService homeService = RESTService.getHomeService();
 
-        Call<HomeEntity> call = homeService.activityHome(getAuthorizationToken(), residence.getId(), residence);
+        Call<HomeEntity> call = homeService.activityHome(getAuthorizationToken(), residence.getId());
         call.enqueue(new Callback<HomeEntity>() {
             @Override
             public void onResponse(@NonNull Call<HomeEntity> call, @NonNull Response<HomeEntity> response) {

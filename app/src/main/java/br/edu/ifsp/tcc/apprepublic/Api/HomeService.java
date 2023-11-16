@@ -28,13 +28,12 @@ public interface HomeService {
     @PUT("homeEdit/active/{id}") // Endpoint para atualizar uma casa pelo ID
     Call<HomeEntity> updateHome(@Header("Authorization") String authorization, @Path("id") Long id, @Body HomeEntity home);
 
-    @PUT("homeEdit/{id}") // Endpoint para atualizar uma casa pelo ID
-    Call<HomeEntity> activityHome(@Header("Authorization") String authorization, @Path("id") Long id, @Body HomeEntity home);
+    @PUT("homeEdit/active/{id}") // Endpoint para ativar uma casa pelo ID
+    Call<HomeEntity> activityHome(@Header("Authorization") String authorization, @Path("id") Long id);
 
-    @PUT("homeEdit/desactive/{id}") // Endpoint para atualizar uma casa pelo ID
-    Call<HomeEntity> desactivityHome(@Header("Authorization") String authorization, @Path("id") Long id, @Body HomeEntity home);
+    @PUT("homeEdit/desactive/{id}") // Endpoint para desativar uma casa pelo ID
+    Call<HomeEntity> desactivityHome(@Header("Authorization") String authorization, @Path("id") Long id);
 
-
-    @DELETE("homeEdit/{id}")  // Endpoint para deletar uma casa pelo ID
+    @DELETE("homeEdit/{id}") // Endpoint para deletar uma casa pelo ID
     Call<Void> deleteHome(@Header("Authorization") String authorization, @Path("id") Long id);
 }

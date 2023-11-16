@@ -44,7 +44,7 @@ public class HomeEntity {
     //@Embedded
     @SerializedName("endereco")
     @Expose
-    private Endereco endereco;
+    private Address endereco;
 
 
     public Long getId() {
@@ -77,10 +77,10 @@ public class HomeEntity {
     public void setOfertado(Boolean ofertado) {
         this.ofertado = ofertado;
     }
-    public Endereco getEndereco() {
+    public Address getEndereco() {
         return endereco;
     }
-    public void setEndereco(Endereco endereco) {
+    public void setEndereco(Address endereco) {
         this.endereco = endereco;
     }
 
