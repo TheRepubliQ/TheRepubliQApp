@@ -3,23 +3,22 @@ package br.edu.ifsp.tcc.apprepublic.mvp;
 import android.content.Context;
 
 import br.edu.ifsp.tcc.apprepublic.model.home.HomeEntity;
+import br.edu.ifsp.tcc.apprepublic.view.ListResidences;
 
 public interface ListResidencesMVP {
 
 
-    interface View{
+    interface View {
         Context getContext();
-
-        void showMessage(String mensage);
-
+        void showMessage(String message);
     }
 
-    interface Presenter{
-
+    interface Presenter {
         void adcionarResidencia();
-
         void desativar(HomeEntity residence);
-
         void ativar(HomeEntity residence);
+        void setView(View view);
+
+        void setView(ListResidences view);
     }
 }

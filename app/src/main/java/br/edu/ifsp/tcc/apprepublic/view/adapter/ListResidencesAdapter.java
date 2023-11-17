@@ -26,6 +26,9 @@ public class ListResidencesAdapter extends RecyclerView.Adapter<ListResidencesAd
         this.residenceList = residenceList;
     }
 
+    public void setPresenter(ListResidencesMVP.Presenter presenter) {
+        this.presenter = presenter;
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

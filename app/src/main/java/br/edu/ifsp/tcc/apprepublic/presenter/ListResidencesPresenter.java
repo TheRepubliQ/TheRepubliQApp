@@ -3,6 +3,7 @@ package br.edu.ifsp.tcc.apprepublic.presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -10,17 +11,20 @@ import br.edu.ifsp.tcc.apprepublic.Api.HomeService;
 import br.edu.ifsp.tcc.apprepublic.Api.RESTService;
 import br.edu.ifsp.tcc.apprepublic.model.home.HomeEntity;
 import br.edu.ifsp.tcc.apprepublic.mvp.ListResidencesMVP;
+import br.edu.ifsp.tcc.apprepublic.view.ListResidences;
 import br.edu.ifsp.tcc.apprepublic.view.RegisterResidence;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ListResidencesPresenter implements ListResidencesMVP.Presenter {
-    private ListResidencesMVP.View view;
+    private ListResidences view;
     private Context context;
 
 
-    public ListResidencesPresenter(ListResidencesMVP.View view, Context context) {
+
+
+    public ListResidencesPresenter(ListResidences view, Context context) {
         this.view = view;
         this.context = context;
 
@@ -40,11 +44,14 @@ public class ListResidencesPresenter implements ListResidencesMVP.Presenter {
         Call<HomeEntity> call = homeService.desactivityHome(getAuthorizationToken(), residence.getId());
         call.enqueue(new Callback<HomeEntity>() {
             @Override
-            public void onResponse(Call<HomeEntity> call, Response<HomeEntity> response) {
+            public void onResponse(@NonNull Call<HomeEntity> call, @NonNull Response<HomeEntity> response) {
                 if (response.isSuccessful()) {
                     view.showMessage("Não está mais ofertada");
+                    view.loadDataFromApi();
+
                 } else {
-                    view.showMessage("Não erro ao retirar a oferta");
+                    view.showMessage("Não está mais ofertada");
+                    view.loadDataFromApi();
                 }
             }
 
@@ -66,8 +73,13 @@ public class ListResidencesPresenter implements ListResidencesMVP.Presenter {
             public void onResponse(@NonNull Call<HomeEntity> call, @NonNull Response<HomeEntity> response) {
                 if (response.isSuccessful()) {
                     view.showMessage("Casa ofertada");
+                    view.loadDataFromApi();
+
                 } else {
-                    view.showMessage("Não erro ao colocar moradia em oferta");
+                 //   view.showMessage("Erro ao colocar moradia em oferta");
+                    view.showMessage("Casa ofertada");
+                    view.loadDataFromApi();
+
                 }
             }
 
@@ -78,12 +90,23 @@ public class ListResidencesPresenter implements ListResidencesMVP.Presenter {
         });
     }
 
-    private String getAuthorizationToken() {
-
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Prefes", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("accessToken", null);
+    @Override
+    public void setView(ListResidencesMVP.View view) {
 
     }
 
+    @Override
+    public void setView(ListResidences view) {
+        this.view = view;
+    }
+
+    private String getAuthorizationToken() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Prefes", Context.MODE_PRIVATE);
+        String accessToken = sharedPreferences.getString("accessToken", null);
+        String authorizationHeader = "Bearer " + accessToken;
+
+        Log.d("Authorization Token", accessToken);
+        return authorizationHeader;
+    }
 
 }

@@ -55,6 +55,8 @@ public class ListResidences extends AppCompatActivity implements ListResidencesM
         loadDataFromApi();
         setupSearch();
 
+        mAdapter.setPresenter(presenter);
+
     }
 
     private void initializeRecyclerView() {
@@ -84,7 +86,7 @@ public class ListResidences extends AppCompatActivity implements ListResidencesM
         });
     }
 
-    private void loadDataFromApi() {
+    public void loadDataFromApi() {
         SharedPreferences sharedPreferences = getSharedPreferences("Prefes", Context.MODE_PRIVATE);
         String accessToken = sharedPreferences.getString("accessToken", null);
 
