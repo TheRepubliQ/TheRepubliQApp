@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -26,9 +25,16 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
     private EditText edittextPrec;
     private EditText edittextCep;
     private EditText edittextNum;
+    private EditText edittextPais;
+    private EditText edittextEstado;
+    private EditText edittextCidade;
+    private EditText edittextBairro;
+    private EditText edittextRua;
+    private EditText edittextComplemento;
     private CheckBox ofertado;
     private Spinner tipoMoradia;
     private Button cadastrar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,20 +46,39 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
     }
 
     private void setListener() {
-
         cadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Adicione aqui a lógica para lidar com o clique no botão "Entrar"
+                // Lógica para lidar com o clique no botão "Cadastrar"
                 String desc = edittexDesc.getText().toString();
                 String prec = edittextPrec.getText().toString();
                 String cep = edittextCep.getText().toString();
-                String Num = edittextNum.getText().toString();
+                String num = edittextNum.getText().toString();
+                String pais = edittextPais.getText().toString();
+                String estado = edittextEstado.getText().toString();
+                String cidade = edittextCidade.getText().toString();
+                String bairro = edittextBairro.getText().toString();
+                String rua = edittextRua.getText().toString();
+                String complemento = edittextComplemento.getText().toString();
                 boolean isOfertado = ofertado.isChecked();
                 String moradia = tipoMoradia.getSelectedItem().toString();
+
+                // Realize a validação dos dados, por exemplo:
+                if (desc.isEmpty() || prec.isEmpty() || cep.isEmpty() || num.isEmpty()
+                || pais.isEmpty()|| estado.isEmpty()|| cidade.isEmpty()|| bairro.isEmpty()|| rua.isEmpty()) {
+                    showMessage("Preencha todos os campos!");
+                } else {
+                    // Crie uma instância do objeto de residência e faça o que for necessário
+                    // Residence residence = new Residence(desc, prec, cep, num, isOfertado, moradia);
+
+                    // Exemplo: Salvar no banco de dados ou realizar outra ação
+                    // residenceRepository.save(residence);
+
+                    // Exiba uma mensagem de sucesso
+                    showMessage("Residência cadastrada com sucesso!");
+                }
             }
         });
-
     }
 
     private void findById() {
@@ -62,24 +87,27 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
         edittextPrec = findViewById(R.id.edittext_PrecoMoradia);
         edittextCep = findViewById(R.id.EditText_textCEP);
         edittextNum = findViewById(R.id.edittext_textNumero);
+        edittextPais = findViewById(R.id.edittext_Pais);
+        edittextEstado = findViewById(R.id.edittext_Estado);
+        edittextCidade = findViewById(R.id.edittext_Cidade);
+        edittextBairro = findViewById(R.id.edittext_Bairro);
+        edittextRua = findViewById(R.id.edittext_Rua);
+        edittextComplemento = findViewById(R.id.edittext_Complemento);
         ofertado = findViewById(R.id.checkbox_OfertadoMoradia);
         tipoMoradia = findViewById(R.id.spinner_TipoMoradia);
         cadastrar = findViewById(R.id.btn_cadMoradia);
 
         Objects.requireNonNull(getSupportActionBar()).setTitle("Resgistrar nova residência");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
-
 
     public Context getContext() {
         return this;
     }
 
     @Override
-    public void showMessage(String mensage) {
-        Toast.makeText(this, mensage, Toast.LENGTH_SHORT).show();
-
+    public void showMessage(String mensagem) {
+        Toast.makeText(this, mensagem, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -106,5 +134,4 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
         // Associe o adaptador ao Spinner
         spinnerTipoMoradia.setAdapter(tipoMoradiaAdapter);
     }
-
 }

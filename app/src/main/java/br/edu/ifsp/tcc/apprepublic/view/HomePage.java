@@ -85,7 +85,19 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
             public void onResponse(@NonNull Call<List<HomeEntity>> call, @NonNull Response<List<HomeEntity>> response) {
                 if (response.isSuccessful()) {
                     homeList = response.body();
-                    mAdapter.setHomeList(homeList); // Defina os dados no adaptador
+
+                    // Filtra as casas em oferta
+                    List<HomeEntity> homesEmOferta = new ArrayList<>();
+
+                    for (HomeEntity home : homeList) {
+                        if (home.getOfertado()) {
+                            homesEmOferta.add(home);
+                        }
+                    }
+
+                    homeList = homesEmOferta;
+
+                    mAdapter.setHomeList(homeList); // Define os dados no adaptador
                     mAdapter.notifyDataSetChanged();
                 } else {
                     showMessage("Falha ao obter dados da API");

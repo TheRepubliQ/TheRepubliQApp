@@ -102,10 +102,26 @@ public class ListResidences extends AppCompatActivity implements ListResidencesM
             public void onResponse(@NonNull Call<List<HomeEntity>> call, @NonNull Response<List<HomeEntity>> response) {
                 if (response.isSuccessful()) {
                     homeList = response.body();
-                    mAdapter.setHomeList(homeList); // Defina os dados no adaptador
-                    mAdapter.notifyDataSetChanged();
 
-                 } else {
+                    // Filtra as residências com oferta ativada
+                    List<HomeEntity> homesComOferta = new ArrayList<>();
+                    List<HomeEntity> homesSemOferta = new ArrayList<>();
+
+                    for (HomeEntity home : homeList) {
+                        if (home.getOfertado()) {
+                            homesComOferta.add(home);
+                        } else {
+                            homesSemOferta.add(home);
+                        }
+                    }
+
+                    // Adiciona primeiro as residências com oferta ativada na lista
+                    homesComOferta.addAll(homesSemOferta);
+                    homeList = homesComOferta;
+
+                    mAdapter.setHomeList(homeList); // Define os dados no adaptador
+                    mAdapter.notifyDataSetChanged();
+                } else {
                     showMessage("Falha ao obter dados da API");
                 }
             }
