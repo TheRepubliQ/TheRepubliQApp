@@ -14,6 +14,7 @@ public interface ChangeUserInformationMVP {
 
         void showMessage(String mensage);
 
+        void populateUser(User body);
     }
 
     interface Presenter{

@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="12dp"
-        android:text="Login"
+        android:text="Nome"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
         android:layout_marginStart="30dp"
         android:background="@drawable/edittext_rounded_background"
         android:inputType="text"
-        android:hint="Login"
+        android:hint="Nome"
          android:padding="10dp"
         android:textAlignment="center"
         android:textColor="@color/black"
@@ -70,14 +70,15 @@
         android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"
         android:background="@drawable/edittext_rounded_background"
-        android:inputType="text"
+        android:inputType="number"
         android:hint="CPF"
         android:padding="10dp"
         android:textAlignment="center"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CPF" />
+        app:layout_constraintTop_toBottomOf="@+id/CPF"
+        />
 
     <TextView
         android:id="@+id/tel"
@@ -99,15 +100,15 @@
         android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"
         android:background="@drawable/edittext_rounded_background"
-        android:inputType="text"
+        android:inputType="phone"
         android:hint="Telefone"
         android:padding="10dp"
         android:textAlignment="center"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tel" />
-
+        app:layout_constraintTop_toBottomOf="@+id/tel"
+        />
 
     <TextView
         android:id="@+id/TexDtaNascimento"
@@ -129,7 +130,7 @@
         android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"
         android:background="@drawable/edittext_rounded_background"
-        android:inputType="text"
+        android:inputType="date"
         android:hint="Data Nascimento"
         android:padding="10dp"
         android:textAlignment="center"
@@ -158,15 +159,15 @@
         android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"
         android:background="@drawable/edittext_rounded_background"
-        android:inputType="text"
+        android:inputType="textEmailAddress"
         android:hint="Email"
         android:padding="10dp"
         android:textAlignment="center"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
-
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        />
 
     <Spinner
         android:id="@+id/spinner_Genero"

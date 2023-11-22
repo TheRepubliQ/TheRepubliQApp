@@ -91,7 +91,7 @@ public class User {
     }
     public void setTelefone(String telefone) {
         // Aplicar a máscara para o campo telefone
-        this.telefone = Mascara.mask(Mascara.MASCARA_TELEFONE, telefone);
+        this.telefone = telefone;
     }
 
     public LocalDate getDataNascimento() {
@@ -113,7 +113,7 @@ public class User {
     }
     public void setCpf(String cpf) {
         // Aplicar a máscara para o campo Cpf
-        this.Cpf = Mascara.mask(Mascara.MASCARA_CPF, cpf);
+        this.Cpf = cpf;
     }
 
     public Gender getGender() {

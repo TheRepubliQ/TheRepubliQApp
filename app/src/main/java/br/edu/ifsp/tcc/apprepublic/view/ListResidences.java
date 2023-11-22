@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -152,11 +153,18 @@ public class ListResidences extends AppCompatActivity implements ListResidencesM
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            // Cria uma nova instância da HomePage
+            Intent intent = new Intent(this, HomePage.class);
+            startActivity(intent);
+
+            // Fecha a atividade atual
             finish();
+
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     private void setupSearch() {
         editTextSearch = findViewById(R.id.editTextSearch);
