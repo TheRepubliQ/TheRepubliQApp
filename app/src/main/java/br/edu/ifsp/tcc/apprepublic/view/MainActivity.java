@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import br.edu.ifsp.tcc.apprepublic.Api.RESTService;
 import br.edu.ifsp.tcc.apprepublic.mvp.MainActivityMVP;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityMVP.V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AndroidThreeTen.init(this);
         setContentView(R.layout.activity_main);
         findById();
         setListeners();

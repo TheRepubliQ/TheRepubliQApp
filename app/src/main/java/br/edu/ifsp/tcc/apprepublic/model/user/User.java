@@ -1,6 +1,12 @@
 package br.edu.ifsp.tcc.apprepublic.model.user;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+
 //import com.fasterxml.jackson.annotation.JsonFormat;
+import androidx.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -8,9 +14,6 @@ import com.google.gson.annotations.SerializedName;
 //import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
-import java.util.Objects;
-
-import br.edu.ifsp.tcc.apprepublic.utils.Mascara;
 
 
 public class User {
@@ -32,7 +35,7 @@ public class User {
     private String telefone;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
-    @SerializedName("nascimento")
+    @SerializedName("dataNascimento")
     @Expose
     private LocalDate dataNascimento;
 
@@ -44,9 +47,9 @@ public class User {
     @Expose
     private String login;
 
-    @SerializedName("Cpf")
+    @SerializedName("cpf")
     @Expose
-    private String Cpf;
+    private String cpf;
     @SerializedName("prop")
     @Expose
     private Boolean prop;
@@ -109,11 +112,10 @@ public class User {
     }
 
     public String getCpf() {
-        return Cpf;
+        return cpf;
     }
     public void setCpf(String cpf) {
-        // Aplicar a máscara para o campo Cpf
-        this.Cpf = cpf;
+        this.cpf = cpf;
     }
 
     public Gender getGender() {
@@ -123,6 +125,12 @@ public class User {
         this.gender = gender;
     }
 
+    public void setDataNascimentoStr(String dataNascimentoStr) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.dataNascimento = LocalDate.parse(dataNascimentoStr, formatter);
+    }
+
+    @NonNull
     @Override
     public String toString() {
         return "id:" + getId() +
@@ -133,7 +141,7 @@ public class User {
                 "\ndataNascimento:"+ getDataNascimento()+
                 "\ngender" + getGender()+
                 "\nlogin:"+ getLogin()+
-                "\nCpf:" + getCpf()+
+                "\ncpf:" + getCpf()+
                 "\nprop" + getIsProp();
     }
 }

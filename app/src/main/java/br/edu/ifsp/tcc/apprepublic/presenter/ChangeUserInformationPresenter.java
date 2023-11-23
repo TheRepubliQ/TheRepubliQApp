@@ -12,6 +12,7 @@
     import br.edu.ifsp.tcc.apprepublic.Api.UserService;
     import br.edu.ifsp.tcc.apprepublic.model.user.User;
     import br.edu.ifsp.tcc.apprepublic.mvp.ChangeUserInformationMVP;
+    import br.edu.ifsp.tcc.apprepublic.utils.DateUtils;
     import retrofit2.Call;
     import retrofit2.Callback;
     import retrofit2.Response;
@@ -29,6 +30,8 @@
         @Override
         public void changeUserInf(User user) {
             UserService userService = RESTService.getUserService();
+            user.setDataNascimentoStr(DateUtils.formatDateForApi(user.getDataNascimento()));
+
 
             Call<User> call = userService.updateUser(getAuthorizationToken(), user.getId(), user);
             call.enqueue(new Callback<User>() {
@@ -73,6 +76,8 @@
                 public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
                     // Informe à View sobre falha na chamada da API
                     view.showMessage("Erro na solicitação da API: " + t.getMessage());
+                    Log.d("Erro filha da puta",  t.getMessage());
+
                 }
             });
         }

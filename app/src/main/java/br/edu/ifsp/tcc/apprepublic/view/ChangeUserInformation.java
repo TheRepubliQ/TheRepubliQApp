@@ -1,6 +1,8 @@
 package br.edu.ifsp.tcc.apprepublic.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,6 +24,7 @@ import br.edu.ifsp.tcc.apprepublic.model.user.Gender;
 import br.edu.ifsp.tcc.apprepublic.model.user.User;
 import br.edu.ifsp.tcc.apprepublic.mvp.ChangeUserInformationMVP;
 import br.edu.ifsp.tcc.apprepublic.presenter.ChangeUserInformationPresenter;
+import br.edu.ifsp.tcc.apprepublic.utils.DateUtils;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
 
 public class ChangeUserInformation extends AppCompatActivity implements ChangeUserInformationMVP.View {
@@ -78,7 +81,7 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
                 user.setCpf(cpf);
                 user.setTelefone(tel);
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                user.setDataNascimento(LocalDate.parse(dtaNascimento, formatter));
+                user.setDataNascimento(DateUtils.parseApiFormattedDate(dtaNascimento));
                 user.setEmail(email);
                 user.setGender(Gender.valueOf(genero.toUpperCase()));
                 user.setIsProp(prop);
@@ -114,6 +117,7 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void populateUser(User user) {
 
@@ -122,11 +126,13 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
         edittextTel.setText(user.getTelefone());
         LocalDate dataNascimento = user.getDataNascimento();
         if (dataNascimento != null) {
-            edittextDtaNascimento.setText(dataNascimento.toString());
+            // Antes de preencher o campo de data de nascimento, formate a data
+            edittextDtaNascimento.setText(DateUtils.formatDateForApi(dataNascimento));
         } else {
             // Caso a data de nascimento seja nula, você pode tratar de alguma forma, por exemplo, exibir uma mensagem padrão.
             edittextDtaNascimento.setText("Data de Nascimento não disponível");
-        }        edittextEmail.setText(user.getEmail());
+        }
+        edittextEmail.setText(user.getEmail());
         for (int i = 0; i < spinnerGenero.getCount(); i++) {
             if (spinnerGenero.getItemAtPosition(i).toString().equals(user.getGender().getDescription())) {
                 spinnerGenero.setSelection(i);
