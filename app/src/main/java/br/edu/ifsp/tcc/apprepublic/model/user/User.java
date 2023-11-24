@@ -37,7 +37,7 @@ public class User {
     @JsonFormat(pattern = "dd/MM/yyyy")
     @SerializedName("dataNascimento")
     @Expose
-    private LocalDate dataNascimento;
+    private String dataNascimento;
 
     @SerializedName("gender")
     @Expose
@@ -97,10 +97,10 @@ public class User {
         this.telefone = telefone;
     }
 
-    public LocalDate getDataNascimento() {
+    public String getDataNascimento() {
         return dataNascimento;
     }
-    public void setDataNascimento(LocalDate dataNascimento) {
+    public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
@@ -125,10 +125,10 @@ public class User {
         this.gender = gender;
     }
 
-    public void setDataNascimentoStr(String dataNascimentoStr) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        this.dataNascimento = LocalDate.parse(dataNascimentoStr, formatter);
-    }
+  //  public void setDataNascimentoStr(String dataNascimentoStr) {
+    //    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+      //  this.dataNascimento = LocalDate.parse(dataNascimentoStr, formatter);
+    //}
 
     @NonNull
     @Override

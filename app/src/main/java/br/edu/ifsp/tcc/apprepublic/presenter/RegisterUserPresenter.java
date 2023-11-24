@@ -35,7 +35,7 @@ public class RegisterUserPresenter implements RegisterUserMVP.Presenter{
                 newUser.setEmail(email);
                 newUser.setPassword(senha);
                 newUser.setTelefone(telefone);
-                newUser.setDataNascimento(LocalDate.parse(dataNascimento));
+                newUser.setDataNascimento(dataNascimento);
                 newUser.setGender(Gender.valueOf(genero));
                 newUser.setLogin(login);
                 newUser.setCpf(cpf);

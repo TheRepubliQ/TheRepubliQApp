@@ -15,9 +15,13 @@ public interface ChangeUserInformationMVP {
         void showMessage(String mensage);
 
         void populateUser(User body);
+
+        void handleUser(User user);
     }
 
     interface Presenter{
         void changeUserInf(User user);
+
+        User getUser(Long id);
     }
 }

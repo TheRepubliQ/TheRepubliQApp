@@ -16,8 +16,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import br.edu.ifsp.tcc.apprepublic.model.user.Gender;
@@ -41,6 +39,8 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
     private CheckBox checkboxProp;
 
     private ChangeUserInformationPresenter presenter;
+    private User user; // Adicione um campo para armazenar o objeto User
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,12 +49,11 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
         findById();
         populateGenderSpinner();
         presenter = new ChangeUserInformationPresenter(this, this);
+        presenter.getUser(getUserId());
         populateDados();
-        setListener();
     }
 
     private void populateDados() {
-
         Long id = getUserId();
         if (id != -1) {
             // Recupere as informações do usuário com base no ID
@@ -66,31 +65,34 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
         btnCad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Long id = getUserId();
-                String nome = edittextNome.getText().toString();
-                String cpf = edittextCpf.getText().toString();
-                String dtaNascimento = edittextDtaNascimento.getText().toString();
-                String email = edittextEmail.getText().toString();
-                String tel = edittextTel.getText().toString();
-                String genero = spinnerGenero.getSelectedItem().toString();
-                boolean prop = checkboxProp.isChecked();
+                // Verifique se o objeto User não é nulo antes de fazer alterações
 
-                User user = new User();
-                user.setId(id);
-                user.setName(nome);
-                user.setCpf(cpf);
-                user.setTelefone(tel);
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                user.setDataNascimento(DateUtils.parseApiFormattedDate(dtaNascimento));
-                user.setEmail(email);
-                user.setGender(Gender.valueOf(genero.toUpperCase()));
-                user.setIsProp(prop);
 
-                presenter.changeUserInf(user);
+                if (user != null) {
+                    String nome = edittextNome.getText().toString();
+                    String cpf = edittextCpf.getText().toString();
+                    String dtaNascimento = edittextDtaNascimento.getText().toString();
+                    String email = edittextEmail.getText().toString();
+                    String tel = edittextTel.getText().toString();
+                    String genero = spinnerGenero.getSelectedItem().toString();
+                    boolean prop = checkboxProp.isChecked();
+
+                    user.setName(nome);
+                    user.setCpf(cpf);
+                    user.setTelefone(tel);
+                    user.setDataNascimento(dtaNascimento);
+                    user.setEmail(email);
+                    user.setGender(Gender.valueOf(genero.toUpperCase()));
+                    user.setIsProp(prop);
+
+                    presenter.changeUserInf(user);
+                } else {
+                    // Lidar com a situação em que o objeto User é nulo
+                    showMessage("Erro: Usuário não encontrado");
+                }
             }
         });
     }
-
 
     private void findById() {
         btnCad = findViewById(R.id.btn_cad);
@@ -104,7 +106,6 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
 
         Objects.requireNonNull(getSupportActionBar()).setTitle("Alterar Seus Dados");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     public Context getContext() {
@@ -112,27 +113,55 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
     }
 
     @Override
-    public void showMessage(String mensage) {
-        Toast.makeText(this, mensage, Toast.LENGTH_SHORT).show();
+    public void showMessage(String mensagem) {
+        Toast.makeText(this, mensagem, Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    public void handleUser(User user) {
+        this.user = user;
+        populateUser(user);
+        setListener(); // Chame o método setListener após obter o objeto User
+    }
+
+    private long getUserId() {
+        SharedPreferences sharedPreferences = getSharedPreferences("Prefes", Context.MODE_PRIVATE);
+        return sharedPreferences.getLong("userId", -1); // Retorne -1 se o ID não estiver disponível
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(this, HomePage.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void populateGenderSpinner() {
+        Spinner spinnerGenero = findViewById(R.id.spinner_Genero);
+
+        ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        for (Gender gender : Gender.values()) {
+            genderAdapter.add(gender.getDescription());
+        }
+
+        spinnerGenero.setAdapter(genderAdapter);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void populateUser(User user) {
-
         edittextNome.setText(user.getName());
         edittextCpf.setText(user.getCpf());
         edittextTel.setText(user.getTelefone());
-        LocalDate dataNascimento = user.getDataNascimento();
-        if (dataNascimento != null) {
-            // Antes de preencher o campo de data de nascimento, formate a data
-            edittextDtaNascimento.setText(DateUtils.formatDateForApi(dataNascimento));
-        } else {
-            // Caso a data de nascimento seja nula, você pode tratar de alguma forma, por exemplo, exibir uma mensagem padrão.
-            edittextDtaNascimento.setText("Data de Nascimento não disponível");
-        }
+        edittextDtaNascimento.setText((user.getDataNascimento()));
         edittextEmail.setText(user.getEmail());
+
         for (int i = 0; i < spinnerGenero.getCount(); i++) {
             if (spinnerGenero.getItemAtPosition(i).toString().equals(user.getGender().getDescription())) {
                 spinnerGenero.setSelection(i);
@@ -140,44 +169,5 @@ public class ChangeUserInformation extends AppCompatActivity implements ChangeUs
             }
         }
         checkboxProp.setChecked(user.getIsProp());
-
-
     }
-
-    private long getUserId() {
-        SharedPreferences sharedPreferences = getSharedPreferences("Prefes", Context.MODE_PRIVATE);
-        return sharedPreferences.getLong("userId", -1); // Retorne -1 se o ID não estiver disponível
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            // Cria uma nova instância da HomePage
-            Intent intent = new Intent(this, HomePage.class);
-            startActivity(intent);
-
-            // Fecha a atividade atual
-            finish();
-
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    private void populateGenderSpinner() {
-        Spinner spinnerGenero = findViewById(R.id.spinner_Genero);
-
-        // Crie um ArrayAdapter para preencher o Spinner
-        ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
-        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // Adicione os valores possíveis de gênero ao adaptador
-        for (Gender gender : Gender.values()) {
-            genderAdapter.add(gender.getDescription());
-        }
-
-        // Associe o adaptador ao Spinner
-        spinnerGenero.setAdapter(genderAdapter);
-    }
-
 }
