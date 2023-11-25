@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -15,13 +16,19 @@ import android.widget.Toast;
 
 import java.util.Objects;
 
+import br.edu.ifsp.tcc.apprepublic.model.home.Address;
+import br.edu.ifsp.tcc.apprepublic.model.home.HomeEntity;
 import br.edu.ifsp.tcc.apprepublic.model.home.Tipo;
 import br.edu.ifsp.tcc.apprepublic.mvp.RegisterResidenceMVP;
+import br.edu.ifsp.tcc.apprepublic.presenter.RegisterResidencePresenter;
+import br.edu.ifsp.tcc.apprepublic.presenter.RegisterUserPresenter;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
 
 public class RegisterResidence extends AppCompatActivity implements RegisterResidenceMVP.View {
 
+    private RegisterResidencePresenter presenter;
     private EditText edittexDesc;
+    private EditText edittextTitulo;
     private EditText edittextPrec;
     private EditText edittextCep;
     private EditText edittextNum;
@@ -41,6 +48,7 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
         setContentView(R.layout.activity_register_residence);
 
         findById();
+        presenter = new RegisterResidencePresenter(this, this);
         setListener();
         populateTipoMoradiaSpinner();
     }
@@ -50,39 +58,55 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
             @Override
             public void onClick(View v) {
                 // Lógica para lidar com o clique no botão "Cadastrar"
+                String titulo = edittextTitulo.getText().toString();
                 String desc = edittexDesc.getText().toString();
                 String prec = edittextPrec.getText().toString();
                 String cep = edittextCep.getText().toString();
-                String num = edittextNum.getText().toString();
                 String pais = edittextPais.getText().toString();
                 String estado = edittextEstado.getText().toString();
                 String cidade = edittextCidade.getText().toString();
                 String bairro = edittextBairro.getText().toString();
                 String rua = edittextRua.getText().toString();
+                String num = edittextNum.getText().toString();
                 String complemento = edittextComplemento.getText().toString();
                 boolean isOfertado = ofertado.isChecked();
                 String moradia = tipoMoradia.getSelectedItem().toString();
 
                 // Realize a validação dos dados, por exemplo:
-                if (desc.isEmpty() || prec.isEmpty() || cep.isEmpty() || num.isEmpty()
+                if (titulo.isEmpty() || desc.isEmpty() || prec.isEmpty() || cep.isEmpty() || num.isEmpty()
                 || pais.isEmpty()|| estado.isEmpty()|| cidade.isEmpty()|| bairro.isEmpty()|| rua.isEmpty()) {
                     showMessage("Preencha todos os campos!");
                 } else {
-                    // Crie uma instância do objeto de residência e faça o que for necessário
-                    // Residence residence = new Residence(desc, prec, cep, num, isOfertado, moradia);
+                    HomeEntity home = new HomeEntity();
+                    Address endereco = new Address();
 
-                    // Exemplo: Salvar no banco de dados ou realizar outra ação
-                    // residenceRepository.save(residence);
+                    endereco.setCep(cep);
+                    endereco.setPais(pais);
+                    endereco.setEstado(estado);
+                    endereco.setCidade(cidade);
+                    endereco.setBairro(bairro);
+                    endereco.setRua(rua);
+                    endereco.setNumero(num);
+                    endereco.setComplemento(complemento);
+                    home.setTitulo(titulo);
+                    home.setDescr(desc);
+                    home.setPreco(Float.parseFloat(prec));
+                    home.setOfertado(isOfertado);
+                    home.setTipo(Tipo.valueOf(moradia));
+                    home.setEndereco(endereco);
 
-                    // Exiba uma mensagem de sucesso
-                    showMessage("Residência cadastrada com sucesso!");
+                    presenter.registerResidence(home);
+
                 }
             }
         });
     }
 
     private void findById() {
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Resgistrar nova residência");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Encontre os elementos da interface por ID
+        edittextTitulo= findViewById(R.id.edittext_Titulo);
         edittexDesc = findViewById(R.id.edittext_DescricaoMoradia);
         edittextPrec = findViewById(R.id.edittext_PrecoMoradia);
         edittextCep = findViewById(R.id.EditText_textCEP);
@@ -97,8 +121,7 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
         tipoMoradia = findViewById(R.id.spinner_TipoMoradia);
         cadastrar = findViewById(R.id.btn_cadMoradia);
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Resgistrar nova residência");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     public Context getContext() {

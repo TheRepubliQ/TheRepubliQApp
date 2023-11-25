@@ -3,19 +3,8 @@ package br.edu.ifsp.tcc.apprepublic.model.home;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-/*import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;*/
+import br.edu.ifsp.tcc.apprepublic.model.user.User;
 
-//Entity
-//@Table(name = "home")
 public class HomeEntity {
 
   //  @Id
@@ -25,6 +14,10 @@ public class HomeEntity {
     private Long id;
     //@NotNull
     //@Size(min = 3, max = 200)
+    @SerializedName("titulo")
+    @Expose
+    private String titulo;
+
     @SerializedName("descr")
     @Expose
     private String descr;
@@ -45,6 +38,10 @@ public class HomeEntity {
     @SerializedName("endereco")
     @Expose
     private Address endereco;
+
+    @SerializedName("user")
+    @Expose
+    private User user;  // Mude para o tipo correto que representa um usuário no Android
 
 
     public Long getId() {
@@ -84,5 +81,21 @@ public class HomeEntity {
         this.endereco = endereco;
     }
 
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
 

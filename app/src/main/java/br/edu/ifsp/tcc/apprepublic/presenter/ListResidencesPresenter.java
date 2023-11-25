@@ -92,7 +92,7 @@ public class ListResidencesPresenter implements ListResidencesMVP.Presenter {
 
     @Override
     public void setView(ListResidencesMVP.View view) {
-
+        this.view = (ListResidences) view;
     }
 
     @Override

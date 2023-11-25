@@ -134,46 +134,5 @@
         }
 
 
-        private class GetUserTask extends AsyncTask<Long, Void, User> {
-
-            @Override
-            protected User doInBackground(Long... params) {
-                Long id = params[0];
-                UserService userService = RESTService.getUserService();
-
-                Call<User> call = userService.getUserById(getAuthorizationToken(), id);
-
-                try {
-                    // Execute a chamada de forma síncrona
-                    Response<User> response = call.execute();
-
-                    int responseCode = response.code();
-                    if (response.isSuccessful()) {
-                        // Retorna o usuário obtido com sucesso
-                        return response.body();
-                    } else {
-                        // Se a chamada não for bem-sucedida, trate o erro ou retorne null (ou um valor padrão)
-                        // Aqui, você pode lançar uma exceção ou retornar um valor padrão
-                    }
-                } catch (IOException e) {
-                    // Trate exceções de IO, por exemplo, se houver um problema de conexão
-                    // Aqui, você pode lançar uma exceção ou retornar um valor padrão
-                }
-
-                // Se ocorrer algum erro, retorne null (ou um valor padrão)
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(User user) {
-                // Este método é chamado na thread principal após a conclusão da tarefa em segundo plano
-                // Aqui, você pode notificar a view ou realizar outras ações com o usuário retornado
-                if (user != null) {
-                    // Notifique a view ou realize outras ações
-                } else {
-                    // Trate a situação em que o usuário é nulo (erro na chamada API)
-                }
-            }
-        }
     }
 

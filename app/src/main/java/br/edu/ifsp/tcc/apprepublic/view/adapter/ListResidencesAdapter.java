@@ -40,7 +40,7 @@ public class ListResidencesAdapter extends RecyclerView.Adapter<ListResidencesAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         HomeEntity residence = residenceList.get(position);
 
-        holder.textTitle.setText(residence.getDescr());
+        holder.textTitle.setText(residence.getTitulo());
 
         if(residence.getOfertado()){
             holder.imageEdit.setColorFilter(context.getColor(R.color.yellow));

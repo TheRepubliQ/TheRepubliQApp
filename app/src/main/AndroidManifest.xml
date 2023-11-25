@@ -11,10 +11,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.AppRepublic"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name="br.edu.ifsp.tcc.apprepublic.view.InfoResidences"
+            android:exported="false" />
         <activity
             android:name="br.edu.ifsp.tcc.apprepublic.view.HomePage"
             android:exported="false" />

@@ -1,5 +1,7 @@
 package br.edu.ifsp.tcc.apprepublic.model.home;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -18,7 +20,7 @@ public class Address {
     @Expose
     private String pais;
  //   @NotNull
-    @SerializedName("uf")
+    @SerializedName("estado")
     @Expose
     private String estado;
  //   @NotNull
@@ -90,4 +92,20 @@ public class Address {
     public void setComplemento(String complemento) {
         this.complemento = complemento;
     }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Endereço{" +
+                "cep='" + cep + '\'' +
+                ", pais='" + pais + '\'' +
+                ", estado='" + estado + '\'' +
+                ", numero='" + numero + '\'' +
+                ", rua='" + rua + '\'' +
+                ", bairro='" + bairro + '\'' +
+                ", cidade='" + cidade + '\'' +
+                ", complemento='" + complemento + '\'' +
+                '}';
+    }
+
 }

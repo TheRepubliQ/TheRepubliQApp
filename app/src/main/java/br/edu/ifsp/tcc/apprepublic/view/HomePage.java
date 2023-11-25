@@ -57,7 +57,6 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
         Log.d("AccessTokenDebug", "AccessToken: " + accessToken);
 
         findById();
-        setListener();
         initializeRecyclerView();
         loadDataFromApi(accessToken);
         setupSearch();
@@ -107,11 +106,9 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
             @Override
             public void onFailure(Call<List<HomeEntity>> call, Throwable t) {
                 showMessage("Erro na solicitação da API: " + t.getMessage());
+                Log.d("Erro ba solicitalçai HomeList da API:" , t.getMessage());
             }
         });
-    }
-
-    private void setListener() {
     }
 
     private void findById() {
