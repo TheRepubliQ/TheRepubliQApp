@@ -5,7 +5,7 @@ public enum Tipo {
     REPUBLICA("Republica"),
     APARTAMENTO("Apartamento"),
     CASA("Casa"),
-    PENSAO("Pensao"),
+    PENSAO("Pensão"),
     KITNET("KitNet");
 
     private String description;

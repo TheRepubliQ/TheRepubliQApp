@@ -3,8 +3,8 @@ package br.edu.ifsp.tcc.apprepublic.view;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.Telephony;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,14 +14,16 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.text.Collator;
+import java.util.Locale;
 import java.util.Objects;
 
 import br.edu.ifsp.tcc.apprepublic.model.home.Address;
 import br.edu.ifsp.tcc.apprepublic.model.home.HomeEntity;
 import br.edu.ifsp.tcc.apprepublic.model.home.Tipo;
+import br.edu.ifsp.tcc.apprepublic.model.user.User;
 import br.edu.ifsp.tcc.apprepublic.mvp.RegisterResidenceMVP;
 import br.edu.ifsp.tcc.apprepublic.presenter.RegisterResidencePresenter;
-import br.edu.ifsp.tcc.apprepublic.presenter.RegisterUserPresenter;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
 
 public class RegisterResidence extends AppCompatActivity implements RegisterResidenceMVP.View {
@@ -49,11 +51,11 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
 
         findById();
         presenter = new RegisterResidencePresenter(this, this);
-        setListener();
+        presenter.getUserById(getUserId());
         populateTipoMoradiaSpinner();
     }
 
-    private void setListener() {
+    private void setListener(User body) {
         cadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,13 +70,14 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
                 String bairro = edittextBairro.getText().toString();
                 String rua = edittextRua.getText().toString();
                 String num = edittextNum.getText().toString();
-                String complemento = edittextComplemento.getText().toString();
+                Collator collator = Collator.getInstance(new Locale("pt", "BR"));
+                collator.setStrength(Collator.NO_DECOMPOSITION); // Ignorar acentos
+                String complemento = edittextComplemento.getText().toString().toUpperCase(Locale.ROOT);
                 boolean isOfertado = ofertado.isChecked();
                 String moradia = tipoMoradia.getSelectedItem().toString();
 
-                // Realize a validação dos dados, por exemplo:
                 if (titulo.isEmpty() || desc.isEmpty() || prec.isEmpty() || cep.isEmpty() || num.isEmpty()
-                || pais.isEmpty()|| estado.isEmpty()|| cidade.isEmpty()|| bairro.isEmpty()|| rua.isEmpty()) {
+                        || pais.isEmpty()|| estado.isEmpty()|| cidade.isEmpty()|| bairro.isEmpty()|| rua.isEmpty()) {
                     showMessage("Preencha todos os campos!");
                 } else {
                     HomeEntity home = new HomeEntity();
@@ -92,11 +95,30 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
                     home.setDescr(desc);
                     home.setPreco(Float.parseFloat(prec));
                     home.setOfertado(isOfertado);
-                    home.setTipo(Tipo.valueOf(moradia));
-                    home.setEndereco(endereco);
 
-                    presenter.registerResidence(home);
+                    // Converta a string para minúsculas e remova acentos
+                    String moradiaLowerCase = removeAcentos(moradia.toLowerCase(Locale.ROOT));
 
+                    // Compare com os valores do enum Tipo
+                    Tipo tipoSelecionado = null;
+                    for (Tipo tipo : Tipo.values()) {
+                        String tipoEnumLowerCase = removeAcentos(tipo.getDescription().toLowerCase(Locale.ROOT));
+                        if (tipoEnumLowerCase.equals(moradiaLowerCase)) {
+                            tipoSelecionado = tipo;
+                            break;
+                        }
+                    }
+
+                    // Se tipoSelecionado ainda for nulo, significa que a string não corresponde a nenhum valor do enum
+                    if (tipoSelecionado == null) {
+                        showMessage("Tipo de moradia inválido");
+                    } else {
+                        home.setTipo(tipoSelecionado);
+                        home.setEndereco(endereco);
+                        home.setUser(body);
+
+                        presenter.registerResidence(home);
+                    }
                 }
             }
         });
@@ -124,6 +146,10 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
 
     }
 
+    // Função para remover acentos de uma string
+    private String removeAcentos(String str) {
+        return str.replaceAll("[^\\p{ASCII}]", "");
+    }
     public Context getContext() {
         return this;
     }
@@ -131,6 +157,12 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
     @Override
     public void showMessage(String mensagem) {
         Toast.makeText(this, mensagem, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public User populateUser(User body) {
+        setListener(body);
+        return body;
     }
 
     @Override
@@ -157,4 +189,10 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
         // Associe o adaptador ao Spinner
         spinnerTipoMoradia.setAdapter(tipoMoradiaAdapter);
     }
+
+    private long getUserId() {
+        SharedPreferences sharedPreferences = getSharedPreferences("Prefes", Context.MODE_PRIVATE);
+        return sharedPreferences.getLong("userId", -1); // Retorne -1 se o ID não estiver disponível
+    }
+
 }
