@@ -132,7 +132,10 @@ public class ListResidencesPresenter implements ListResidencesMVP.Presenter {
     @Override
     public void editar(HomeEntity residence) {
         Intent intent = new Intent(context, EditResidence.class);
-        view.showMessage("Mude sua senha");
+        // Adiciona a entidade HomeEntity à Intent
+        intent.putExtra("residence", residence.getId());
+
+        view.showMessage("Editar dados");
         context.startActivity(intent);
     }
 

@@ -25,7 +25,7 @@ public interface HomeService {
     @GET("homeEdit/listHomes/{userId}") // Endpoint para buscar casas por usuário
     Call<List<HomeEntity>> listHomesByUserId(@Header("Authorization") String authorization, @Path("userId") Long userId);
 
-    @PUT("homeEdit/active/{id}") // Endpoint para atualizar uma casa pelo ID
+    @PUT("homeEdit/{id}") // Endpoint para atualizar uma casa pelo ID
     Call<HomeEntity> updateHome(@Header("Authorization") String authorization, @Path("id") Long id, @Body HomeEntity home);
 
     @PUT("homeEdit/active/{id}") // Endpoint para ativar uma casa pelo ID
