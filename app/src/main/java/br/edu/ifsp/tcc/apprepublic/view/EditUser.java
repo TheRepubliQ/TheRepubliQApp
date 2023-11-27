@@ -22,10 +22,9 @@ import br.edu.ifsp.tcc.apprepublic.model.user.Gender;
 import br.edu.ifsp.tcc.apprepublic.model.user.User;
 import br.edu.ifsp.tcc.apprepublic.mvp.ChangeUserInformationMVP;
 import br.edu.ifsp.tcc.apprepublic.presenter.ChangeUserInformationPresenter;
-import br.edu.ifsp.tcc.apprepublic.utils.DateUtils;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
 
-public class ChangeUserInformation extends AppCompatActivity implements ChangeUserInformationMVP.View {
+public class EditUser extends AppCompatActivity implements ChangeUserInformationMVP.View {
 
     private Button btnCad;
     private EditText edittextNome;

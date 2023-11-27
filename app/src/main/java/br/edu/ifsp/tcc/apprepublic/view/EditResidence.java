@@ -44,6 +44,8 @@ public class EditResidence extends AppCompatActivity implements EditResidenceMVP
     private Spinner tipoMoradia;
     private Button cadastrar;
 
+    private HomeEntity home;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,15 @@ public class EditResidence extends AppCompatActivity implements EditResidenceMVP
         presenter = new EditResidencePresenter(this, this);
         presenter.getUserById(getUserId());
         populateTipoMoradiaSpinner();
+        populateCamposResidence();
+    }
+
+    private void populateCamposResidence() {
+        Long id = getResidenceId();
+        if (id != -1) {
+            // Recupere as informações do usuário com base no ID
+            presenter.getResidenceById(id);
+        }
     }
 
     private void setListener(User body) {
@@ -78,7 +89,7 @@ public class EditResidence extends AppCompatActivity implements EditResidenceMVP
                 String moradia = tipoMoradia.getSelectedItem().toString();
 
                 if (titulo.isEmpty() || desc.isEmpty() || prec.isEmpty() || cep.isEmpty() || num.isEmpty()
-                        || pais.isEmpty()|| estado.isEmpty()|| cidade.isEmpty()|| bairro.isEmpty()|| rua.isEmpty()) {
+                        || pais.isEmpty() || estado.isEmpty() || cidade.isEmpty() || bairro.isEmpty() || rua.isEmpty()) {
                     showMessage("Preencha todos os campos!");
                 } else {
                     HomeEntity home = new HomeEntity();
@@ -129,7 +140,7 @@ public class EditResidence extends AppCompatActivity implements EditResidenceMVP
         Objects.requireNonNull(getSupportActionBar()).setTitle("Edita residência");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Encontre os elementos da interface por ID
-        edittextTitulo= findViewById(R.id.edittext_Titulo);
+        edittextTitulo = findViewById(R.id.edittext_Titulo);
         edittexDesc = findViewById(R.id.edittext_DescricaoMoradia);
         edittextPrec = findViewById(R.id.edittext_PrecoMoradia);
         edittextCep = findViewById(R.id.EditText_textCEP);
@@ -162,6 +173,35 @@ public class EditResidence extends AppCompatActivity implements EditResidenceMVP
         return body;
     }
 
+    public void handleHome(HomeEntity home) {
+        this.home = home;
+        populateHome(home);
+    }
+
+    private void populateHome(HomeEntity home) {
+        // Preencha os campos com os detalhes da HomeEntity
+        edittexDesc.setText(home.getDescr());
+        edittextTitulo.setText(home.getTitulo());
+        edittextPrec.setText(String.valueOf(home.getPreco()));
+        edittextCep.setText(home.getEndereco().getCep());
+        edittextNum.setText(home.getEndereco().getNumero());
+        edittextPais.setText(home.getEndereco().getPais());
+        edittextEstado.setText(home.getEndereco().getEstado());
+        edittextCidade.setText(home.getEndereco().getCidade());
+        edittextBairro.setText(home.getEndereco().getBairro());
+        edittextRua.setText(home.getEndereco().getRua());
+        edittextComplemento.setText(home.getEndereco().getComplemento());
+        ofertado.setChecked(home.getOfertado());
+
+        // Selecione o valor no Spinner com base no tipo de moradia da HomeEntity
+        for (int i = 0; i < tipoMoradia.getCount(); i++) {
+            if (tipoMoradia.getItemAtPosition(i).toString().equals(home.getTipo().getDescription())) {
+                tipoMoradia.setSelection(i);
+                break;
+            }
+        }
+    }
+
     private void populateTipoMoradiaSpinner() {
         Spinner spinnerTipoMoradia = findViewById(R.id.spinner_TipoMoradia);
 
@@ -178,18 +218,17 @@ public class EditResidence extends AppCompatActivity implements EditResidenceMVP
         spinnerTipoMoradia.setAdapter(tipoMoradiaAdapter);
     }
 
-    private long getUserId() {
-        SharedPreferences sharedPreferences = getSharedPreferences("Prefes", Context.MODE_PRIVATE);
-        return sharedPreferences.getLong("userId", -1); // Retorne -1 se o ID não estiver disponível
-    }
+        private long getUserId () {
+            SharedPreferences sharedPreferences = getSharedPreferences("Prefes", Context.MODE_PRIVATE);
+            return sharedPreferences.getLong("userId", -1); // Retorne -1 se o ID não estiver disponível
+        }
 
-    private long getResidenceId() {
-        long residenceId = getIntent().getLongExtra("residence", -1);
-        return residenceId;
-    }
+        private long getResidenceId () {
+            long residenceId = getIntent().getLongExtra("residence", -1);
+            return residenceId;
+        }
 
-    private String removeAcentos(String str) {
-        return str.replaceAll("[^\\p{ASCII}]", "");
-    }
-
+        private String removeAcentos (String str){
+            return str.replaceAll("[^\\p{ASCII}]", "");
+        }
 }

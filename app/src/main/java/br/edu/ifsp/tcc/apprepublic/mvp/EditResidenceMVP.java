@@ -17,5 +17,7 @@ public interface EditResidenceMVP {
 
     interface Presenter{
         void editResidence(HomeEntity home, Long id);
+
+        void getResidenceById(Long id);
     }
 }

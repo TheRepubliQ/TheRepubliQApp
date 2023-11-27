@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundAppColor"
-    tools:context="br.edu.ifsp.tcc.apprepublic.view.ChangeUserInformation">
+    tools:context="br.edu.ifsp.tcc.apprepublic.view.EditUser">
 
 
     <LinearLayout

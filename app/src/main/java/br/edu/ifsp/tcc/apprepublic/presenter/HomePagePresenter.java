@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import br.edu.ifsp.tcc.apprepublic.mvp.HomePageMVP;
-import br.edu.ifsp.tcc.apprepublic.view.ChangeUserInformation;
+import br.edu.ifsp.tcc.apprepublic.view.EditUser;
 import br.edu.ifsp.tcc.apprepublic.view.HomePage;
 import br.edu.ifsp.tcc.apprepublic.view.ListResidences;
 
@@ -27,7 +27,7 @@ public class HomePagePresenter implements HomePageMVP.Presenter {
 
     @Override
     public void changeToEditPerfil() {
-        Intent intent = new Intent(context, ChangeUserInformation.class);
+        Intent intent = new Intent(context, EditUser.class);
         context.startActivity(intent);
         ((HomePage) context).finish(); // Destruir a HomePage
 
