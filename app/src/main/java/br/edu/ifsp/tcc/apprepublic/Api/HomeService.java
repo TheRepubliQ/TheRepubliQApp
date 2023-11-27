@@ -16,7 +16,7 @@ public interface HomeService {
     @GET("homeEdit") // Endpoint para listar todas as casas
     Call<List<HomeEntity>> listHomes(@Header("Authorization") String authorization);
 
-    @POST("homeEdit") // Endpoint para criar uma nova casa
+    @POST("homeEdit/app") // Endpoint para criar uma nova casa
     Call<HomeEntity> createHome(@Header("Authorization") String authorization, @Body HomeEntity home);
 
     @GET("homeEdit/{id}") // Endpoint para buscar uma casa pelo ID
