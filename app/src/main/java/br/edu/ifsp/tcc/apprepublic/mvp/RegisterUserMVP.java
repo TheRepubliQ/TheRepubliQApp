@@ -2,6 +2,8 @@ package br.edu.ifsp.tcc.apprepublic.mvp;
 
 import android.content.Context;
 
+import br.edu.ifsp.tcc.apprepublic.model.user.User;
+
 public interface RegisterUserMVP {
 
     interface View{
@@ -13,7 +15,7 @@ public interface RegisterUserMVP {
 
     interface Presenter {
 
-        void register(String login, String cpf, String telefone, String dataNascimento, String email, String senha, String genero, boolean isOfertado);
+        void register(User user);
 
     }
 }

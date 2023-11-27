@@ -125,12 +125,6 @@ public class User {
         this.gender = gender;
     }
 
-  //  public void setDataNascimentoStr(String dataNascimentoStr) {
-    //    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-      //  this.dataNascimento = LocalDate.parse(dataNascimentoStr, formatter);
-    //}
-
-    @NonNull
     @Override
     public String toString() {
         return "id:" + getId() +

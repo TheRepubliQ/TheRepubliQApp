@@ -20,5 +20,9 @@ public interface ListResidencesMVP {
         void setView(View view);
 
         void setView(ListResidences view);
+
+        void editar(HomeEntity residence);
+
+        void excluir(HomeEntity residence);
     }
 }

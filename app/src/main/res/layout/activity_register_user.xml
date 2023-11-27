@@ -20,6 +20,34 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
+        android:id="@+id/TextNome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="Nome:"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cabecalho" />
+
+    <EditText
+        android:id="@+id/edittext_Nome"
+        android:layout_width="284dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/edittext_rounded_background"
+        android:hint="Nome"
+        android:inputType="text"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toEndOf="@+id/TextLogin"
+        app:layout_constraintTop_toBottomOf="@+id/cabecalho" />
+
+    <TextView
         android:id="@+id/TextLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,7 +57,7 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cabecalho" />
+        app:layout_constraintTop_toBottomOf="@+id/TextNome" />
 
     <EditText
         android:id="@+id/edittext_Login"
@@ -45,7 +73,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toEndOf="@+id/TextLogin"
-        app:layout_constraintTop_toBottomOf="@+id/cabecalho" />
+        app:layout_constraintTop_toBottomOf="@+id/edittext_Nome" />
 
     <TextView
         android:id="@+id/CPF"

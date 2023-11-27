@@ -43,9 +43,9 @@ public class ListResidencesAdapter extends RecyclerView.Adapter<ListResidencesAd
         holder.textTitle.setText(residence.getTitulo());
 
         if(residence.getOfertado()){
-            holder.imageEdit.setColorFilter(context.getColor(R.color.yellow));
+            holder.imageEdit.setImageResource(android.R.drawable.checkbox_on_background);
         }else{
-            holder.imageEdit.setColorFilter(context.getColor(R.color.gray));
+            holder.imageEdit.setImageResource(android.R.drawable.checkbox_off_background);
         }
         holder.imageEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +55,20 @@ public class ListResidencesAdapter extends RecyclerView.Adapter<ListResidencesAd
                 }else{
                     ativar(residence);
                 }
+            }
+        });
+
+        holder.imageDados.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editar(residence);
+            }
+        });
+
+        holder.imageTrash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                excluir(residence);
             }
         });
     }
@@ -71,6 +85,17 @@ public class ListResidencesAdapter extends RecyclerView.Adapter<ListResidencesAd
         notifyDataSetChanged();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    private void editar(HomeEntity residence){
+        presenter.editar(residence);
+        notifyDataSetChanged();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void excluir(HomeEntity residence){
+        presenter.excluir(residence);
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getItemCount() {
@@ -84,11 +109,17 @@ public class ListResidencesAdapter extends RecyclerView.Adapter<ListResidencesAd
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageEdit;
+
+        ImageView imageDados;
+
+        ImageView imageTrash;
         TextView textTitle;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imageEdit = itemView.findViewById(R.id.image_edit);
+            imageDados = itemView.findViewById(R.id.image_dados);
+            imageTrash = itemView.findViewById(R.id.image_trash);
             textTitle = itemView.findViewById(R.id.text_title_listitem);
         }
     }

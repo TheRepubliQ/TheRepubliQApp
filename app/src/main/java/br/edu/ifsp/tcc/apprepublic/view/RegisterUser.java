@@ -18,12 +18,13 @@ import android.widget.Toast;
 import java.util.Objects;
 
 import br.edu.ifsp.tcc.apprepublic.model.user.Gender;
+import br.edu.ifsp.tcc.apprepublic.model.user.User;
 import br.edu.ifsp.tcc.apprepublic.mvp.RegisterUserMVP;
 import br.edu.ifsp.tcc.apprepublic.presenter.RegisterUserPresenter;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
 
 public class RegisterUser extends AppCompatActivity implements RegisterUserMVP.View {
-
+    private EditText edittextNome;
     private EditText edittextLogin;
     private EditText edittextCpf;
     private EditText edittextTel;
@@ -49,15 +50,29 @@ public class RegisterUser extends AppCompatActivity implements RegisterUserMVP.V
 
     private void setListeners() {
         btnCadastrar.setOnClickListener(v -> {
+            String nome = edittextNome.getText().toString();
             String login = edittextLogin.getText().toString();
             String cpf = edittextCpf.getText().toString();
             String telefone = edittextTel.getText().toString();
             String dataNascimento = edittextTexDtaNascimento.getText().toString();
             String email = edittextEmail.getText().toString();
             String senha = edittextSenha.getText().toString();
-            String genero = spinnerGenero.getSelectedItem().toString();
+            Gender genero = (Gender) spinnerGenero.getSelectedItem();
             boolean isOfertado = checkboxProp.isChecked();
-            presenter.register(login, cpf, telefone, dataNascimento, email, senha, genero, isOfertado);
+
+            User user = new User();
+
+            user.setName(nome);
+            user.setLogin(login);
+            user.setCpf(cpf);
+            user.setTelefone(telefone);
+            user.setDataNascimento(dataNascimento);
+            user.setEmail(email);
+            user.setPassword(senha);
+            user.setGender(genero);
+            user.setIsProp(isOfertado);
+
+            presenter.register(user);
         });
 
         visivel.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -67,6 +82,7 @@ public class RegisterUser extends AppCompatActivity implements RegisterUserMVP.V
     }
 
     private void findById() {
+        edittextNome = findViewById(R.id.edittext_Nome);
         edittextLogin = findViewById(R.id.edittext_Login);
         edittextCpf = findViewById(R.id.edittext_Cpf);
         edittextTel = findViewById(R.id.edittext_Tel);

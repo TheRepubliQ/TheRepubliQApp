@@ -11,8 +11,10 @@ import br.edu.ifsp.tcc.apprepublic.Api.HomeService;
 import br.edu.ifsp.tcc.apprepublic.Api.RESTService;
 import br.edu.ifsp.tcc.apprepublic.model.home.HomeEntity;
 import br.edu.ifsp.tcc.apprepublic.mvp.ListResidencesMVP;
+import br.edu.ifsp.tcc.apprepublic.view.EditResidence;
 import br.edu.ifsp.tcc.apprepublic.view.ListResidences;
 import br.edu.ifsp.tcc.apprepublic.view.RegisterResidence;
+import br.edu.ifsp.tcc.apprepublic.view.UpdatePassword;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -91,6 +93,33 @@ public class ListResidencesPresenter implements ListResidencesMVP.Presenter {
     }
 
     @Override
+    public void excluir(HomeEntity residence) {
+        HomeService homeService = RESTService.getHomeService();
+
+        Call<Void> call = homeService.deleteHome(getAuthorizationToken(), residence.getId());
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.isSuccessful()) {
+                    view.showMessage("Casa Excluida");
+                    view.loadDataFromApi();
+
+                } else {
+                    view.showMessage("Erro na exclusão");
+                    view.loadDataFromApi();
+
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, Throwable t) {
+                view.showMessage("Erro ao realizar chamada");
+            }
+        });
+    }
+
+
+    @Override
     public void setView(ListResidencesMVP.View view) {
         this.view = (ListResidences) view;
     }
@@ -99,6 +128,14 @@ public class ListResidencesPresenter implements ListResidencesMVP.Presenter {
     public void setView(ListResidences view) {
         this.view = view;
     }
+
+    @Override
+    public void editar(HomeEntity residence) {
+        Intent intent = new Intent(context, EditResidence.class);
+        view.showMessage("Mude sua senha");
+        context.startActivity(intent);
+    }
+
 
     private String getAuthorizationToken() {
         SharedPreferences sharedPreferences = context.getSharedPreferences("Prefes", Context.MODE_PRIVATE);
