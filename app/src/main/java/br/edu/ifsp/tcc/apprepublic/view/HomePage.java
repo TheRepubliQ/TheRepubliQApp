@@ -141,6 +141,9 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
             case R.id.action_list_residences:
                 presenter.changeToRegisterResidence();
                 return true;
+            case R.id.action_logout:
+                presenter.logout();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

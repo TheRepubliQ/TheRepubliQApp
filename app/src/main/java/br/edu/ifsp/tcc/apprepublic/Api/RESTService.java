@@ -22,8 +22,7 @@ public class RESTService {
         return retrofit.create(HomeService.class);
     }
 
-    public static HomeViewService getHomeViewService() {
-        return retrofit.create(HomeViewService.class);
+    public static HomeViewService getHomeViewService() {return retrofit.create(HomeViewService.class);
     }
 
     public static UserService getUserService() {
@@ -37,4 +36,8 @@ public class RESTService {
     public static AuthService getAuthService() {
         return retrofit.create(AuthService.class);
     }
+
+    public static TokenService getTokenService() {return retrofit.create(TokenService.class);
+    }
+
 }
