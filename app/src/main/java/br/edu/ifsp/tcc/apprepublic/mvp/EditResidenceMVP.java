@@ -13,6 +13,8 @@ public interface EditResidenceMVP {
         void showMessage(String mensage);
 
         User populateUser(User body);
+
+        void handleHome(HomeEntity body);
     }
 
     interface Presenter{

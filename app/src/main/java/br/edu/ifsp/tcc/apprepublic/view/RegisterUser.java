@@ -57,7 +57,7 @@ public class RegisterUser extends AppCompatActivity implements RegisterUserMVP.V
             String dataNascimento = edittextTexDtaNascimento.getText().toString();
             String email = edittextEmail.getText().toString();
             String senha = edittextSenha.getText().toString();
-            Gender genero = (Gender) spinnerGenero.getSelectedItem();
+            String genero = spinnerGenero.getSelectedItem().toString();
             boolean isOfertado = checkboxProp.isChecked();
 
             User user = new User();
@@ -69,7 +69,7 @@ public class RegisterUser extends AppCompatActivity implements RegisterUserMVP.V
             user.setDataNascimento(dataNascimento);
             user.setEmail(email);
             user.setPassword(senha);
-            user.setGender(genero);
+            user.setGender(Gender.valueOf(genero.toUpperCase()));
             user.setIsProp(isOfertado);
 
             presenter.register(user);
@@ -96,6 +96,7 @@ public class RegisterUser extends AppCompatActivity implements RegisterUserMVP.V
 
         Objects.requireNonNull(getSupportActionBar()).setTitle("Cadastrar Novo Usuario");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     public Context getContext() {

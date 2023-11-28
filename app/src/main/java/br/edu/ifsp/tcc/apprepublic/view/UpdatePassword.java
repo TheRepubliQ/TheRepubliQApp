@@ -56,6 +56,10 @@ public class UpdatePassword extends AppCompatActivity implements UpdatePasswordM
     }
 
     private void findById() {
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Alterar Senha");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         edittextSenhaAtual = findViewById(R.id.edittext_senhaAtual);
         edittextNovaSenha = findViewById(R.id.edittext_novaSenha);
         edittextConfirmarNovaSenha = findViewById(R.id.edittext_confirmarNovaSenha);

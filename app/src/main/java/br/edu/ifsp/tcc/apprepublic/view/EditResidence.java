@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -138,7 +139,8 @@ public class EditResidence extends AppCompatActivity implements EditResidenceMVP
 
     private void findById() {
         Objects.requireNonNull(getSupportActionBar()).setTitle("Edita residência");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         // Encontre os elementos da interface por ID
         edittextTitulo = findViewById(R.id.edittext_Titulo);
         edittexDesc = findViewById(R.id.edittext_DescricaoMoradia);
@@ -231,4 +233,14 @@ public class EditResidence extends AppCompatActivity implements EditResidenceMVP
         private String removeAcentos (String str){
             return str.replaceAll("[^\\p{ASCII}]", "");
         }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

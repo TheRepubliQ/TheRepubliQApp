@@ -105,6 +105,7 @@ public class EditUser extends AppCompatActivity implements ChangeUserInformation
 
         Objects.requireNonNull(getSupportActionBar()).setTitle("Alterar Seus Dados");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     public Context getContext() {

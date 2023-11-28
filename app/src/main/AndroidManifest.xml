@@ -15,34 +15,31 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".UpdateResidence"
+            android:name="br.edu.ifsp.tcc.apprepublic.view.UpdatePassword"
             android:exported="false" />
         <activity
-            android:name=".EditResidence"
+            android:name="br.edu.ifsp.tcc.apprepublic.view.EditResidence"
             android:exported="false" />
         <activity
-            android:name=".InfoResidences"
+            android:name="br.edu.ifsp.tcc.apprepublic.view.EditUser"
             android:exported="false" />
         <activity
-            android:name=".HomePage"
+            android:name="br.edu.ifsp.tcc.apprepublic.view.InfoResidences"
             android:exported="false" />
         <activity
-            android:name=".ListResidences"
+            android:name="br.edu.ifsp.tcc.apprepublic.view.HomePage"
             android:exported="false" />
         <activity
-            android:name=".RegisterResidence"
+            android:name="br.edu.ifsp.tcc.apprepublic.view.ListResidences"
             android:exported="false" />
         <activity
-            android:name=".ChangeUserInformation"
+            android:name="br.edu.ifsp.tcc.apprepublic.view.RegisterResidence"
             android:exported="false" />
         <activity
-            android:name=".UpdatePassword"
+            android:name="br.edu.ifsp.tcc.apprepublic.view.RegisterUser"
             android:exported="false" />
         <activity
-            android:name=".RegisterUser"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name="br.edu.ifsp.tcc.apprepublic.view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

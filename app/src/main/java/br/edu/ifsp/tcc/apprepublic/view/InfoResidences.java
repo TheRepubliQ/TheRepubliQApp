@@ -2,6 +2,7 @@ package br.edu.ifsp.tcc.apprepublic.view;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,7 +51,7 @@ public class InfoResidences extends AppCompatActivity implements InfoResidencesM
 
     private void findById() {
         Objects.requireNonNull(getSupportActionBar()).setTitle("Informações Residenciais");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         textTitulo = findViewById(R.id.text_titulo);
@@ -79,6 +80,14 @@ public class InfoResidences extends AppCompatActivity implements InfoResidencesM
         textTelefone.setText(homeEntity.getUser().getTelefone());
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 }

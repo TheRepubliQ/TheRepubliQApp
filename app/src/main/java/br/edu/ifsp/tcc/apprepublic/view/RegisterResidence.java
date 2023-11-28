@@ -127,6 +127,7 @@ public class RegisterResidence extends AppCompatActivity implements RegisterResi
     private void findById() {
         Objects.requireNonNull(getSupportActionBar()).setTitle("Resgistrar nova residência");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         // Encontre os elementos da interface por ID
         edittextTitulo= findViewById(R.id.edittext_Titulo);
         edittexDesc = findViewById(R.id.edittext_DescricaoMoradia);
