@@ -47,12 +47,7 @@ public class HomePagePresenter implements HomePageMVP.Presenter {
         // Certifique-se de que o token de acesso não está vazio ou nulo antes de prosseguir
         if (accessToken != null && !accessToken.isEmpty()) {
             // Cria a chamada para revogar o token, passando o token de acesso e o tipo de token no corpo da solicitação
-            Call<Void> call = tokenService.revokeToken(accessToken, "access_token");
-
-            // Adiciona o token de acesso ao cabeçalho da solicitação
-            String authorizationHeader = "Bearer " + accessToken;
-            call.request().newBuilder().header("Authorization", authorizationHeader);
-
+            Call<Void> call = tokenService.revokeToken(accessToken);
             // Enqueue a chamada
             call.enqueue(new Callback<Void>() {
                 @Override
@@ -99,6 +94,10 @@ public class HomePagePresenter implements HomePageMVP.Presenter {
 
     private String getAuthorizationToken() {
         SharedPreferences sharedPreferences = context.getSharedPreferences("Prefes", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("accessToken", null);
+        String accessToken = sharedPreferences.getString("accessToken", null);
+        String authorizationHeader = "Bearer " + accessToken;
+
+        return authorizationHeader;
     }
+
 }
