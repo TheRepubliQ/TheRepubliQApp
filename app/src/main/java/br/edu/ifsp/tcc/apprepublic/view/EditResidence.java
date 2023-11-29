@@ -104,10 +104,12 @@ public class EditResidence extends AppCompatActivity implements EditResidenceMVP
                     endereco.setRua(rua);
                     endereco.setNumero(num);
                     endereco.setComplemento(complemento);
+                    home.setId(id);
                     home.setTitulo(titulo);
                     home.setDescr(desc);
                     home.setPreco(Float.parseFloat(prec));
                     home.setOfertado(isOfertado);
+
 
                     // Converta a string para minúsculas e remova acentos
                     String moradiaLowerCase = removeAcentos(moradia.toLowerCase(Locale.ROOT));

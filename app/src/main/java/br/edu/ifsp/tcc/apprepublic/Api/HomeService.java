@@ -13,11 +13,11 @@ import retrofit2.http.Path;
 import retrofit2.http.Body;
 
 public interface HomeService {
-    @GET("homeEdit") // Endpoint para listar todas as casas
-    Call<List<HomeEntity>> listHomes(@Header("Authorization") String authorization);
 
     @POST("homeEdit/app") // Endpoint para criar uma nova casa
     Call<HomeEntity> createHome(@Header("Authorization") String authorization, @Body HomeEntity home);
+    @GET("homeEdit") // Endpoint para listar todas as casas
+    Call<List<HomeEntity>> listHomes(@Header("Authorization") String authorization);
 
     @GET("homeEdit/{id}") // Endpoint para buscar uma casa pelo ID
     Call<HomeEntity> getHomeById(@Header("Authorization") String authorization, @Path("id") Long id);

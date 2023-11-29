@@ -35,16 +35,17 @@
 
             call.enqueue(new Callback<HomeEntity>() {
                 @Override
-                public void onResponse(Call<HomeEntity> call, Response<HomeEntity> response) {
+                public void onResponse(@NonNull Call<HomeEntity> call, @NonNull Response<HomeEntity> response) {
                     if (response.isSuccessful() && response.body() != null) {
-                        view.showMessage("Residência Editada com sucesso");
+                        view.showMessage("Residência Editada com sucesso"+ response.code() + response.body());
+                        Log.d("Residência Editada com sucesso", "dados: " + response.body() + ", código de resposta: " + response.code());
                     } else {
                         view.showMessage("Erro ao editar a residência. Código de resposta: " + response.code());
                     }
                 }
 
                 @Override
-                public void onFailure(Call<HomeEntity> call, Throwable t) {
+                public void onFailure(@NonNull Call<HomeEntity> call, @NonNull Throwable t) {
                     view.showMessage("Erro de conexão ao editar a residência");
                 }
             });

@@ -93,9 +93,21 @@ public class Address {
         this.complemento = complemento;
     }
 
-    @NonNull
     @Override
     public String toString() {
+        return "{" +
+                "\"pais\": \"" + pais + "\"," +
+                "\"estado\": \"" + estado + "\"," +
+                "\"numero\": \"" + numero + "\"," +
+                "\"rua\": \"" + rua + "\"," +
+                "\"bairro\": \"" + bairro + "\"," +
+                "\"cidade\": \"" + cidade + "\"," +
+                "\"cep\": \"" + cep + "\"," +
+                "\"complemento\": \"" + complemento + "\"" +
+                "}";
+    }
+
+    public String Forma() {
         return "Endereço{" +
                 "cep='" + cep + '\'' +
                 ", pais='" + pais + '\'' +

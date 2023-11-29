@@ -13,11 +13,12 @@
     import retrofit2.http.Path;
 
     public interface UserService {
-        @GET("user") // Endpoint para listar todos os usuários
-        Call<List<User>> listUsers();
 
         @POST("user") // Endpoint para criar um novo usuário
         Call<User> createUser(@Body User user);
+
+        @GET("user") // Endpoint para listar todos os usuários
+        Call<List<User>> listUsers();
 
         @GET("user/{id}") // Endpoint para buscar um usuário pelo ID
         Call<User> getUserById(@Header("Authorization") String authorization, @Path("id") Long id);
@@ -27,14 +28,14 @@
 
         @PUT("user/{id}") // Endpoint para atualizar um usuário pelo ID
         Call<User> updateUser(@Header("Authorization") String authorization, @Path("id") Long id, @Body User user);
-
-        @DELETE("user/{id}") // Endpoint para deletar um usuário pelo ID
-        Call<Void> deleteUser(@Path("id") Long id);
-
         @PUT("user/active/{id}") // Endpoint para ativar um usuário pelo ID
         Call<Void> activateUser(@Path("id") Long id);
 
         @PUT("user/desactive/{id}") // Endpoint para desativar um usuário pelo ID
         Call<Void> deactivateUser(@Path("id") Long id);
+
+        @DELETE("user/{id}") // Endpoint para deletar um usuário pelo ID
+        Call<Void> deleteUser(@Path("id") Long id);
+
 
     }
