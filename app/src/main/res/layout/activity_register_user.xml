@@ -94,7 +94,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/edittext_rounded_background"
         android:hint="CPF"
-        android:inputType="number"
+        android:inputType="text"
         android:padding="10dp"
         android:textAlignment="center"
         android:textColor="@color/black"
