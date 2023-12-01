@@ -16,7 +16,6 @@ public interface MainActivityMVP {
 
         void login(String user, String passoword);
         void cadast();
-        void altSenha();
 
     }
 }

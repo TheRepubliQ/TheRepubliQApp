@@ -57,17 +57,18 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edittext_user" />
 
+
     <CheckBox
         android:id="@+id/radio_remember_me"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="36dp"
         android:text="@string/lembre_de_mim"
         android:textSize="20sp"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/esqueci_senha" />
-
+        app:layout_constraintTop_toBottomOf="@+id/edittext_password" />
 
     <EditText
         android:id="@+id/edittext_password"
@@ -95,18 +96,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/edittext_password"
         app:layout_constraintTop_toBottomOf="@+id/text_senha" />
-
-    <TextView
-        android:id="@+id/esqueci_senha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="Esqueci minha senha"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edittext_password" />
 
     <Button
         android:id="@+id/button_enter"

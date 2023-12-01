@@ -17,5 +17,7 @@ public interface HomePageMVP {
         void changeToRegisterResidence();
 
         void changeToEditPerfil();
+
+        void altSenha();
     }
 }

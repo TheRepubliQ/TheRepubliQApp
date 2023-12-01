@@ -60,7 +60,7 @@ public class InfoResidences extends AppCompatActivity implements InfoResidencesM
         textPrec = findViewById(R.id.text_prec);
         textEndereco = findViewById(R.id.text_endereco);
         textEmail = findViewById(R.id.text_Email);
-        textTelefone = findViewById(R.id.text_Telefone);
+        textTelefone = findViewById(R.id.text_Tel);
     }
 
     private void loadDataFromApi() {

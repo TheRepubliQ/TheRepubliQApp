@@ -9,6 +9,10 @@
         android:id="@+id/action_edit_profile"
         android:title="Editar Perfil"
         app:showAsAction="never" /> <!-- Configura "never" para evitar que esta opção apareça na barra de ação -->
+    <item
+        android:id="@+id/action_edit_password"
+        android:title="Trocar Senha"
+        app:showAsAction="never" /> <!-- Configura "never" para evitar que esta opção apareça na barra de ação -->
 
     <item
         android:id="@+id/action_list_residences"

@@ -14,16 +14,18 @@ import android.widget.Toast;
 import java.util.Objects;
 
 import br.edu.ifsp.tcc.apprepublic.mvp.UpdatePasswordMVP;
+import br.edu.ifsp.tcc.apprepublic.presenter.UpdatePasswordPresenter;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
 
 public class UpdatePassword extends AppCompatActivity implements UpdatePasswordMVP.View {
 
-    private EditText edittextSenhaAtual;
+    private EditText edittextEmail;
     private EditText edittextNovaSenha;
     private EditText edittextConfirmarNovaSenha;
     private Button btnAlterarSenha;
     private CheckBox visivel;
     private CheckBox visivelCon;
+
     private boolean isPasswordVisible = true;
     private boolean isPasswordVisibleCon = true;
 
@@ -37,12 +39,15 @@ public class UpdatePassword extends AppCompatActivity implements UpdatePasswordM
 
     private void setListeners() {
         btnAlterarSenha.setOnClickListener(v -> {
-            // Adicione aqui a lógica para lidar com o clique no botão "Alterar Senha"
-            String senhaAtual = edittextSenhaAtual.getText().toString();
+            UpdatePasswordPresenter presenter = new UpdatePasswordPresenter(this, this);
+            String Email = edittextEmail.getText().toString();
             String novaSenha = edittextNovaSenha.getText().toString();
             String confirmarNovaSenha = edittextConfirmarNovaSenha.getText().toString();
-            // Implemente a lógica para alterar a senha aqui
-        });
+            if(novaSenha.equals(confirmarNovaSenha)){
+                presenter.alterSenha(Email, novaSenha);
+
+            }
+         });
 
         visivel.setOnCheckedChangeListener((buttonView, isChecked) -> {
             isPasswordVisible = isChecked;
@@ -60,15 +65,12 @@ public class UpdatePassword extends AppCompatActivity implements UpdatePasswordM
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        edittextSenhaAtual = findViewById(R.id.edittext_senhaAtual);
+        edittextEmail = findViewById(R.id.edittext_email);
         edittextNovaSenha = findViewById(R.id.edittext_novaSenha);
         edittextConfirmarNovaSenha = findViewById(R.id.edittext_confirmarNovaSenha);
         btnAlterarSenha = findViewById(R.id.btn_alterarSenha);
         visivel = findViewById(R.id.showSenha);
         visivelCon = findViewById(R.id.showConSenha);
-
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Esqueceu sua senha?");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public Context getContext() {

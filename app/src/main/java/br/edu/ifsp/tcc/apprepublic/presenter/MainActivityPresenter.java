@@ -86,10 +86,4 @@ public class MainActivityPresenter implements MainActivityMVP.Presenter {
         context.startActivity(intent);
     }
 
-    @Override
-    public void altSenha() {
-        Intent intent = new Intent(context, UpdatePassword.class);
-        view.showMessage("Mude sua senha");
-        context.startActivity(intent);
-    }
 }

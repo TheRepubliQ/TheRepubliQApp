@@ -11,6 +11,7 @@ import br.edu.ifsp.tcc.apprepublic.view.EditUser;
 import br.edu.ifsp.tcc.apprepublic.view.HomePage;
 import br.edu.ifsp.tcc.apprepublic.view.ListResidences;
 import br.edu.ifsp.tcc.apprepublic.view.MainActivity;
+import br.edu.ifsp.tcc.apprepublic.view.UpdatePassword;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,6 +35,13 @@ public class HomePagePresenter implements HomePageMVP.Presenter {
     @Override
     public void changeToEditPerfil() {
         Intent intent = new Intent(context, EditUser.class);
+        context.startActivity(intent);
+        ((HomePage) context).finish(); // Destruir a HomePage
+    }
+
+    @Override
+    public void altSenha() {
+        Intent intent = new Intent(context, UpdatePassword.class);
         context.startActivity(intent);
         ((HomePage) context).finish(); // Destruir a HomePage
     }
