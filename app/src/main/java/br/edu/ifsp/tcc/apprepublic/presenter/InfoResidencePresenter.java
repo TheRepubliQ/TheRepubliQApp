@@ -6,8 +6,10 @@ import android.content.SharedPreferences;
 
 import br.edu.ifsp.tcc.apprepublic.Api.HomeService;
 import br.edu.ifsp.tcc.apprepublic.Api.RESTService;
+import br.edu.ifsp.tcc.apprepublic.Api.RequestService;
 import br.edu.ifsp.tcc.apprepublic.Api.UserService;
 import br.edu.ifsp.tcc.apprepublic.model.home.HomeEntity;
+import br.edu.ifsp.tcc.apprepublic.model.request.Request;
 import br.edu.ifsp.tcc.apprepublic.model.user.User;
 import br.edu.ifsp.tcc.apprepublic.mvp.InfoResidencesMVP;
 import br.edu.ifsp.tcc.apprepublic.view.ContactProp;
@@ -60,13 +62,34 @@ public class InfoResidencePresenter implements InfoResidencesMVP.Presenter {
     }
 
     @Override
-    public void contactProp() {
+    public void contactProp(Request request) {
+        RequestService requestService = RESTService.getRequestService();
+        Call<Request> call = requestService.createRequest(getAuthorizationToken(), request);
 
+        call.enqueue(new Callback<Request>() {
+            @Override
+            public void onResponse(Call<Request> call, Response<Request> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // Solicitação criada com sucesso
+                    view.showMessage("Solicitação enviada com sucesso!");
 
-        Intent intent = new Intent(context, ContactProp.class);
-        view.showMessage("Entrar em Contato com Proprietário");
+                    Intent intent = new Intent(context, ContactProp.class);
+                    view.showMessage("Entrar em Contato com Proprietário");
 
-        context.startActivity(intent);
+                    context.startActivity(intent);
+                } else {
+                    // Exibe uma mensagem de erro genérica em caso de falha
+                    view.showMessage("Erro ao enviar a solicitação. Tente novamente.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Request> call, Throwable t) {
+                // Exibe uma mensagem de erro em caso de falha na conexão
+                view.showMessage("Erro de conexão ao enviar a solicitação. Verifique sua conexão com a internet.");
+            }
+        });
     }
+
 
 }

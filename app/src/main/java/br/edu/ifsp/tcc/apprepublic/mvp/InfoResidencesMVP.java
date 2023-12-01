@@ -3,6 +3,7 @@ package br.edu.ifsp.tcc.apprepublic.mvp;
 import android.content.Context;
 
 import br.edu.ifsp.tcc.apprepublic.model.home.HomeEntity;
+import br.edu.ifsp.tcc.apprepublic.model.request.Request;
 
 public interface InfoResidencesMVP {
 
@@ -16,7 +17,7 @@ public interface InfoResidencesMVP {
     interface Presenter {
         void recuperarResidences(long homeId);
 
-        void contactProp();
+        void contactProp(Request request);
 
     }
 }

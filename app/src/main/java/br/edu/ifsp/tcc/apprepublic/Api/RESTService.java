@@ -26,6 +26,8 @@ public class RESTService {
     public static HomeViewService getHomeViewService() {return retrofit.create(HomeViewService.class);
     }
 
+    public static RequestService getRequestService(){return retrofit.create(RequestService.class);}
+
     public static UserService getUserService() {
         return retrofit.create(UserService.class);
     }

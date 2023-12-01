@@ -1,6 +1,7 @@
 package br.edu.ifsp.tcc.apprepublic.view;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Objects;
 
 import br.edu.ifsp.tcc.apprepublic.model.home.HomeEntity;
+import br.edu.ifsp.tcc.apprepublic.model.request.Request;
 import br.edu.ifsp.tcc.apprepublic.mvp.InfoResidencesMVP;
 import br.edu.ifsp.tcc.apprepublic.presenter.InfoResidencePresenter;
 import br.edu.ifsp.tcc.apptherrepubliq.R;
@@ -29,7 +31,7 @@ public class InfoResidences extends AppCompatActivity implements InfoResidencesM
 
     private Button btnRequest;
 
-
+    private Request request;  // Adicionado para armazenar os dados da solicitação
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,17 +40,23 @@ public class InfoResidences extends AppCompatActivity implements InfoResidencesM
 
         presenter = new InfoResidencePresenter(this, this);
 
+        request = new Request();  // Inicializa a instância da solicitação
+
         findById();
         loadDataFromApi();
-        setListener();
     }
 
-    private void setListener() {
+    private void setListener(HomeEntity homeEntity) {
 
         btnRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.contactProp();
+
+                request.setUserProp(homeEntity.getUser().getId());
+                request.setHomeId(homeEntity.getId());
+                request.setUserId(getUserId());
+
+                presenter.contactProp(request);
             }
         });
     }
@@ -90,6 +98,7 @@ public class InfoResidences extends AppCompatActivity implements InfoResidencesM
         textTipo.setText(homeEntity.getTipo().toString());  // Ou qualquer método que converta o enum para String
         textPrec.setText(String.valueOf(homeEntity.getPreco()));  // Convertendo o preço para String
         textEndereco.setText(homeEntity.getEndereco().Forma());
+        setListener(homeEntity);
 
     }
 
@@ -102,5 +111,11 @@ public class InfoResidences extends AppCompatActivity implements InfoResidencesM
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private long getUserId() {
+        SharedPreferences sharedPreferences = getSharedPreferences("Prefes", Context.MODE_PRIVATE);
+        return sharedPreferences.getLong("userId", -1); // Retorne -1 se o ID não estiver disponível
+    }
+
 
 }
