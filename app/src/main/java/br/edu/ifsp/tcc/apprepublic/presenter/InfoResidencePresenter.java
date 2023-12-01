@@ -61,6 +61,8 @@ public class InfoResidencePresenter implements InfoResidencesMVP.Presenter {
 
     @Override
     public void contactProp() {
+
+
         Intent intent = new Intent(context, ContactProp.class);
         view.showMessage("Entrar em Contato com Proprietário");
 

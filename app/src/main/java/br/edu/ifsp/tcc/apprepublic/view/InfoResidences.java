@@ -3,6 +3,7 @@ package br.edu.ifsp.tcc.apprepublic.view;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,17 @@ public class InfoResidences extends AppCompatActivity implements InfoResidencesM
 
         findById();
         loadDataFromApi();
+        setListener();
+    }
+
+    private void setListener() {
+
+        btnRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.contactProp();
+            }
+        });
     }
 
     @Override
