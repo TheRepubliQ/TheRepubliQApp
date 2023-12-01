@@ -1,7 +1,10 @@
 package br.edu.ifsp.tcc.apprepublic.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.MenuItem;
@@ -94,7 +97,10 @@ public class UpdatePassword extends AppCompatActivity implements UpdatePasswordM
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish(); // Fecha a atividade atual
+            // Use o TaskStackBuilder para criar uma pilha de navegação
+            TaskStackBuilder.create(this)
+                    .addNextIntentWithParentStack(new Intent(this, HomePage.class))
+                    .startActivities();
             return true;
         }
         return super.onOptionsItemSelected(item);
