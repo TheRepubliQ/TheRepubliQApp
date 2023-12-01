@@ -34,12 +34,10 @@ public class UpdatePasswordPresenter implements UpdatePasswordMVP.Presenter {
                 if (response.isSuccessful()) {
                     User user = response.body();
                     assert user != null;
-                    user.setPassword(newSenha);
-
                     // Atualizar o usuário com a nova senha
-                    userService.updateUser(getAuthorizationToken(), user.getId(), user).enqueue(new Callback<User>() {
+                    userService.updatePassword(getAuthorizationToken(), user.getId(), newSenha).enqueue(new Callback<Void>() {
                         @Override
-                        public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                        public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                             if (response.isSuccessful()) {
                                 // Senha alterada com sucesso
                                 view.showMessage("Senha alterada com sucesso");
@@ -53,7 +51,7 @@ public class UpdatePasswordPresenter implements UpdatePasswordMVP.Presenter {
                         }
 
                         @Override
-                        public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                        public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                             // Imprimir mensagem de erro
                             Log.e("UpdatePasswordPresenter", "Error updating password: " + t.getMessage(), t);
 

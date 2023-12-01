@@ -3,6 +3,7 @@ package br.edu.ifsp.tcc.apprepublic.view;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,8 +25,9 @@ public class InfoResidences extends AppCompatActivity implements InfoResidencesM
     private TextView textTipo;
     private TextView textPrec;
     private TextView textEndereco;
-    private TextView textEmail;
-    private TextView textTelefone;
+
+    private Button btnRequest;
+
 
 
     @Override
@@ -56,11 +58,11 @@ public class InfoResidences extends AppCompatActivity implements InfoResidencesM
 
         textTitulo = findViewById(R.id.text_titulo);
         textDescricao = findViewById(R.id.text_descricao);
-        textTipo = findViewById(R.id.text_tipo);
-        textPrec = findViewById(R.id.text_prec);
+        textTipo = findViewById(R.id.text_email);
+        textPrec = findViewById(R.id.text_tel);
         textEndereco = findViewById(R.id.text_endereco);
-        textEmail = findViewById(R.id.text_Email);
-        textTelefone = findViewById(R.id.text_Tel);
+        btnRequest = findViewById(R.id.btnRequest);
+
     }
 
     private void loadDataFromApi() {
@@ -76,8 +78,7 @@ public class InfoResidences extends AppCompatActivity implements InfoResidencesM
         textTipo.setText(homeEntity.getTipo().toString());  // Ou qualquer método que converta o enum para String
         textPrec.setText(String.valueOf(homeEntity.getPreco()));  // Convertendo o preço para String
         textEndereco.setText(homeEntity.getEndereco().Forma());
-        textEmail.setText(homeEntity.getUser().getEmail());
-        textTelefone.setText(homeEntity.getUser().getTelefone());
+
     }
 
     @Override

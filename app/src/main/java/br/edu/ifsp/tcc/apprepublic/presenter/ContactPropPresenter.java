@@ -1,38 +1,26 @@
 package br.edu.ifsp.tcc.apprepublic.presenter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 
 import br.edu.ifsp.tcc.apprepublic.Api.HomeService;
 import br.edu.ifsp.tcc.apprepublic.Api.RESTService;
-import br.edu.ifsp.tcc.apprepublic.Api.UserService;
 import br.edu.ifsp.tcc.apprepublic.model.home.HomeEntity;
-import br.edu.ifsp.tcc.apprepublic.model.user.User;
+import br.edu.ifsp.tcc.apprepublic.mvp.ContactPropMVP;
 import br.edu.ifsp.tcc.apprepublic.mvp.InfoResidencesMVP;
 import br.edu.ifsp.tcc.apprepublic.view.ContactProp;
-import br.edu.ifsp.tcc.apprepublic.view.RegisterUser;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class InfoResidencePresenter implements InfoResidencesMVP.Presenter {
+public class ContactPropPresenter implements ContactPropMVP.Presenter {
 
-    private InfoResidencesMVP.View view;
+    private ContactPropMVP.View view;
     private  Context context;
-    public InfoResidencePresenter(InfoResidencesMVP.View view, Context context) {
+    public ContactPropPresenter(ContactPropMVP.View view, Context context) {
         this.view = view;
         this.context = context;
     }
-
-    private String getAuthorizationToken() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Prefes", Context.MODE_PRIVATE);
-        String accessToken = sharedPreferences.getString("accessToken", null);
-        String authorizationHeader = "Bearer " + accessToken;
-
-        return authorizationHeader;
-    }
-
 
     @Override
     public void recuperarResidences(long homeId) {
@@ -46,7 +34,7 @@ public class InfoResidencePresenter implements InfoResidencesMVP.Presenter {
                     HomeEntity homeEntity = response.body();
                     // Aqui você pode usar os detalhes da casa recuperada
                     // Exemplo: view.showHomeDetails(homeEntity);
-                    view.infoHome(homeEntity);
+                    view.infoContat(homeEntity);
                 } else {
                     view.showMessage("Erro ao recuperar informações da casa");
                 }
@@ -60,11 +48,15 @@ public class InfoResidencePresenter implements InfoResidencesMVP.Presenter {
     }
 
     @Override
-    public void contactProp() {
-        Intent intent = new Intent(context, ContactProp.class);
-        view.showMessage("Entrar em Contato com Proprietário");
+    public void messageProp() {
 
-        context.startActivity(intent);
     }
 
+    private String getAuthorizationToken() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Prefes", Context.MODE_PRIVATE);
+        String accessToken = sharedPreferences.getString("accessToken", null);
+        String authorizationHeader = "Bearer " + accessToken;
+
+        return authorizationHeader;
+    }
 }
