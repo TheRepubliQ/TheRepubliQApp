@@ -2,13 +2,12 @@ package br.edu.ifsp.tcc.apprepublic.presenter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import br.edu.ifsp.tcc.apprepublic.Api.HomeService;
 import br.edu.ifsp.tcc.apprepublic.Api.RESTService;
 import br.edu.ifsp.tcc.apprepublic.model.home.HomeEntity;
 import br.edu.ifsp.tcc.apprepublic.mvp.ContactPropMVP;
-import br.edu.ifsp.tcc.apprepublic.mvp.InfoResidencesMVP;
-import br.edu.ifsp.tcc.apprepublic.view.ContactProp;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -16,7 +15,8 @@ import retrofit2.Response;
 public class ContactPropPresenter implements ContactPropMVP.Presenter {
 
     private ContactPropMVP.View view;
-    private  Context context;
+    private Context context;
+
     public ContactPropPresenter(ContactPropMVP.View view, Context context) {
         this.view = view;
         this.context = context;
@@ -24,6 +24,8 @@ public class ContactPropPresenter implements ContactPropMVP.Presenter {
 
     @Override
     public void recuperarResidences(long homeId) {
+        Log.d("ContactPropPresenter", "Recuperando informações para o homeId: " + homeId);
+
         HomeService homeService = RESTService.getHomeService();
         Call<HomeEntity> call = homeService.getHomeById(getAuthorizationToken(), homeId);
 
@@ -37,19 +39,22 @@ public class ContactPropPresenter implements ContactPropMVP.Presenter {
                     view.infoContat(homeEntity);
                 } else {
                     view.showMessage("Erro ao recuperar informações da casa");
+                    Log.d("ContactPropPresenter", "Falha na resposta do servidor: " + response.code());
+                    // Adicione mais informações relevantes aos logs conforme necessário
                 }
             }
 
             @Override
             public void onFailure(Call<HomeEntity> call, Throwable t) {
                 view.showMessage("Erro de conexão ao recuperar informações da casa");
+                Log.e("ContactPropPresenter", "Erro durante a solicitação ao servidor", t);
             }
         });
     }
 
     @Override
     public void messageProp() {
-
+        // Implemente a lógica para exibir a mensagem do proprietário aqui, se necessário.
     }
 
     private String getAuthorizationToken() {

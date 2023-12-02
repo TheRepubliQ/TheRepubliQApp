@@ -30,7 +30,7 @@
         Call<User> updateUser(@Header("Authorization") String authorization, @Path("id") Long id, @Body User user);
 
 
-        @PUT("user/{id}/password") // Endpoint para atualizar um usuário pelo ID
+        @PUT("user/password/{id}") // Endpoint para atualizar um usuário pelo ID
         Call<Void> updatePassword(@Header("Authorization") String authorization, @Path("id") Long id, @Body String password);
 
         @PUT("user/active/{id}") // Endpoint para ativar um usuário pelo ID

@@ -3,6 +3,9 @@ package br.edu.ifsp.tcc.apprepublic.presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import br.edu.ifsp.tcc.apprepublic.Api.HomeService;
 import br.edu.ifsp.tcc.apprepublic.Api.RESTService;
@@ -43,7 +46,7 @@ public class InfoResidencePresenter implements InfoResidencesMVP.Presenter {
 
         call.enqueue(new Callback<HomeEntity>() {
             @Override
-            public void onResponse(Call<HomeEntity> call, Response<HomeEntity> response) {
+            public void onResponse(@NonNull Call<HomeEntity> call, @NonNull Response<HomeEntity> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     HomeEntity homeEntity = response.body();
                     // Aqui você pode usar os detalhes da casa recuperada
@@ -55,7 +58,7 @@ public class InfoResidencePresenter implements InfoResidencesMVP.Presenter {
             }
 
             @Override
-            public void onFailure(Call<HomeEntity> call, Throwable t) {
+            public void onFailure(@NonNull Call<HomeEntity> call, @NonNull Throwable t) {
                 view.showMessage("Erro de conexão ao recuperar informações da casa");
             }
         });
@@ -68,25 +71,30 @@ public class InfoResidencePresenter implements InfoResidencesMVP.Presenter {
 
         call.enqueue(new Callback<Request>() {
             @Override
-            public void onResponse(Call<Request> call, Response<Request> response) {
+            public void onResponse(@NonNull Call<Request> call, @NonNull Response<Request> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     // Solicitação criada com sucesso
                     view.showMessage("Solicitação enviada com sucesso!");
 
                     Intent intent = new Intent(context, ContactProp.class);
-                    view.showMessage("Entrar em Contato com Proprietário");
-
+                    intent.putExtra("home_id", request.getHomeId()); // Substitua 'getHomeId()' pelo método apropriado para obter o homeId da solicitação
                     context.startActivity(intent);
                 } else {
                     // Exibe uma mensagem de erro genérica em caso de falha
                     view.showMessage("Erro ao enviar a solicitação. Tente novamente.");
+                    Log.d("ContactProp", "Failure Response Code: " + response.code());
+                    assert response.errorBody() != null;
+                    Log.d("ContactProp", "Failure Response Body: " + response.errorBody());
                 }
             }
 
             @Override
-            public void onFailure(Call<Request> call, Throwable t) {
+            public void onFailure(@NonNull Call<Request> call, @NonNull Throwable t) {
                 // Exibe uma mensagem de erro em caso de falha na conexão
                 view.showMessage("Erro de conexão ao enviar a solicitação. Verifique sua conexão com a internet.");
+
+                Log.e("ContactProp", "Connection Error: " + t.getMessage(), t);
+
             }
         });
     }

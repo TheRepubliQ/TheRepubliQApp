@@ -24,6 +24,9 @@
             android:name="br.edu.ifsp.tcc.apprepublic.view.EditUser"
             android:exported="false" />
         <activity
+            android:name="br.edu.ifsp.tcc.apprepublic.view.ContactProp"
+            android:exported="false"/>
+        <activity
             android:name="br.edu.ifsp.tcc.apprepublic.view.InfoResidences"
             android:exported="false" />
         <activity
