@@ -1,7 +1,9 @@
 package br.edu.ifsp.tcc.apprepublic.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.util.Log;
 
 import br.edu.ifsp.tcc.apprepublic.Api.HomeService;
@@ -52,10 +54,22 @@ public class ContactPropPresenter implements ContactPropMVP.Presenter {
         });
     }
 
-    @Override
-    public void messageProp() {
-        // Implemente a lógica para exibir a mensagem do proprietário aqui, se necessário.
-    }
+        @Override
+        public void messageProp(HomeEntity home) {
+            // Obtenha o número de telefone do usuário da casa
+            String telefone = home.getUser().getTelefone();
+
+            // Construa a mensagem codificada em URL
+            String mensagemCodificada = "Ol%C3%A1%2C%20tudo%20bem%3F%0AEstou%20interessado%20na%20moradia%20que%20vc%20cadastrou!%0AVamos%20conversar%3F";
+
+            // Combine o número de telefone e a mensagem para criar o link
+            String linkConversa = "https://wa.me/" + telefone + "?text=" + mensagemCodificada;
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(linkConversa));
+            context.startActivity(intent);
+
+
+        }
 
     private String getAuthorizationToken() {
         SharedPreferences sharedPreferences = context.getSharedPreferences("Prefes", Context.MODE_PRIVATE);

@@ -39,6 +39,7 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageAdapter.ViewHo
         holder.textTitleNome.setText(home.getTitulo());
         holder.textPreco.setText(String.valueOf(home.getPreco()));
 
+
         holder.btnDados.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

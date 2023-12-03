@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,17 @@ public class ContactProp extends AppCompatActivity implements ContactPropMVP.Vie
         loadDataFromApi();
     }
 
+    private void setListener(HomeEntity homeEntity) {
+
+        btnContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                presenter.messageProp(homeEntity);
+            }
+        });
+    }
+
     private void loadDataFromApi() {
         long homeId = getIntent().getLongExtra("home_id", -1);
         presenter.recuperarResidences(homeId);
@@ -67,5 +79,7 @@ public class ContactProp extends AppCompatActivity implements ContactPropMVP.Vie
     public void infoContat(HomeEntity homeEntity) {
         textEmail.setText(homeEntity.getUser().getEmail());
         textTel.setText(homeEntity.getUser().getTelefone());
+
+        setListener(homeEntity);
     }
 }

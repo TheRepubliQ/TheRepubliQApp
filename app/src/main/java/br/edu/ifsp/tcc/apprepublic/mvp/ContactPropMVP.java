@@ -18,7 +18,7 @@ public interface ContactPropMVP {
 
         void recuperarResidences(long homeId);
 
-        void messageProp();
+        void messageProp(HomeEntity home);
 
     }
 }

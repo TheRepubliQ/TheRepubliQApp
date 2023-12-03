@@ -16,7 +16,11 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,6 +30,7 @@ import java.util.Objects;
 import br.edu.ifsp.tcc.apprepublic.Api.HomeService;
 import br.edu.ifsp.tcc.apprepublic.Api.RESTService;
 import br.edu.ifsp.tcc.apprepublic.model.home.HomeEntity;
+import br.edu.ifsp.tcc.apprepublic.model.home.Tipo;
 import br.edu.ifsp.tcc.apprepublic.mvp.HomePageMVP;
 import br.edu.ifsp.tcc.apprepublic.presenter.HomePagePresenter;
 import br.edu.ifsp.tcc.apprepublic.presenter.ListResidencesPresenter;
@@ -45,20 +50,15 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
 
     private EditText editTextSearch;
 
+    private Spinner spinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         presenter = new HomePagePresenter(this, this);
-
-        SharedPreferences sharedPreferences = getSharedPreferences("Prefes", Context.MODE_PRIVATE);
-        String accessToken = sharedPreferences.getString("accessToken", null);
-
-        Log.d("AccessTokenDebug", "AccessToken: " + accessToken);
-
         findById();
         initializeRecyclerView();
-        loadDataFromApi(accessToken);
         setupSearch();
     }
 
@@ -73,47 +73,49 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void loadDataFromApi(String accessToken) {
+    private void loadDataFromApiWithFilter( String query) {
         HomeService homeService = RESTService.getHomeService();
-        String authorizationHeader = "Bearer " + accessToken;
 
-        Call<List<HomeEntity>> call = homeService.listHomes(authorizationHeader);
+        Call<List<HomeEntity>> call = homeService.listHomes(getAuthorizationToken());
         call.enqueue(new Callback<List<HomeEntity>>() {
-            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(@NonNull Call<List<HomeEntity>> call, @NonNull Response<List<HomeEntity>> response) {
                 if (response.isSuccessful()) {
                     homeList = response.body();
-
-                    // Filtra as casas em oferta
-                    List<HomeEntity> homesEmOferta = new ArrayList<>();
-
-                    for (HomeEntity home : homeList) {
-                        if (home.getOfertado()) {
-                            homesEmOferta.add(home);
-                        }
-                    }
-
-                    homeList = homesEmOferta;
-
-                    mAdapter.setHomeList(homeList); // Define os dados no adaptador
-                    mAdapter.notifyDataSetChanged();
+                    filterItems(query);  // Filtrar localmente
                 } else {
                     showMessage("Falha ao obter dados da API");
+                    Log.d("Falha ao obter dados da API", String.valueOf(response.code()));
+
+
                 }
             }
 
             @Override
             public void onFailure(Call<List<HomeEntity>> call, Throwable t) {
                 showMessage("Erro na solicitação da API: " + t.getMessage());
-                Log.d("Erro ba solicitalçai HomeList da API:" , t.getMessage());
+                Log.d("Erro na solicitação HomeList da API:", t.getMessage());
             }
         });
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void filterItems(String query) {
+        List<HomeEntity> filteredList = new ArrayList<>();
+        for (HomeEntity entity : homeList) {
+            if (entity.getDescr().toLowerCase().contains(query.toLowerCase()) ||
+                    entity.getEndereco().toString().toLowerCase().contains(query.toLowerCase())){
+                filteredList.add(entity);
+            }
+        }
+        mAdapter.setHomeList(filteredList);
+        mAdapter.notifyDataSetChanged();
     }
 
     private void findById() {
         Objects.requireNonNull(getSupportActionBar()).setTitle("Bem Vindos");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        populateTipoMoradiaSpinner();
     }
 
     public Context getContext() {
@@ -172,15 +174,50 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
         });
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private void filterItems(String query) {
-        List<HomeEntity> filteredList = new ArrayList<>();
-        for (HomeEntity entity : homeList) {
-            if (entity.getDescr().toLowerCase().contains(query.toLowerCase())) {
-                filteredList.add(entity);
-            }
-        }
-        mAdapter.setHomeList(filteredList);
-        mAdapter.notifyDataSetChanged();
+    private String getAuthorizationToken() {
+        SharedPreferences sharedPreferences = getSharedPreferences("Prefes", Context.MODE_PRIVATE);
+        String accessToken = sharedPreferences.getString("accessToken", null);
+        String authorizationHeader = "Bearer " + accessToken;
+
+        Log.d("Authorization Token", accessToken);
+        return authorizationHeader;
     }
+
+    private void populateTipoMoradiaSpinner() {
+        spinner = findViewById(R.id.spinnerFilter);
+
+        // Crie um ArrayAdapter para preencher o Spinner
+        ArrayAdapter<String> tipoMoradiaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        tipoMoradiaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Adicione os valores do enum Tipo ao adaptador
+        for (Tipo tipo : Tipo.values()) {
+            tipoMoradiaAdapter.add(tipo.getDescription());
+        }
+
+        // Associe o adaptador ao Spinner
+        spinner.setAdapter(tipoMoradiaAdapter);
+
+        // Adicione um listener para capturar a seleção do Spinner
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Obtenha o item selecionado usando a posição
+                String selectedValue = tipoMoradiaAdapter.getItem(position);
+
+                Log.d("Spinner Selection", "Position: " + position + ", Value: " + selectedValue);
+                loadDataFromApiWithFilter(selectedValue);
+
+                // Aqui você pode usar a posição e o valor conforme necessário
+                // Por exemplo, você pode chamar loadDataFromApiWithFilter(position, selectedValue);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+    }
+
+
+
 }

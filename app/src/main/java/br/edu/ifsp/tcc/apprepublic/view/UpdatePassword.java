@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.MenuItem;
@@ -47,7 +48,7 @@ public class UpdatePassword extends AppCompatActivity implements UpdatePasswordM
             String novaSenha = edittextNovaSenha.getText().toString();
             String confirmarNovaSenha = edittextConfirmarNovaSenha.getText().toString();
             if(novaSenha.equals(confirmarNovaSenha)){
-                presenter.alterSenha(Email, novaSenha);
+                presenter.alterSenha(Email, novaSenha, getUserId());
 
             }
          });
@@ -104,5 +105,10 @@ public class UpdatePassword extends AppCompatActivity implements UpdatePasswordM
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private long getUserId() {
+        SharedPreferences sharedPreferences = getSharedPreferences("Prefes", Context.MODE_PRIVATE);
+        return sharedPreferences.getLong("userId", -1); // Retorne -1 se o ID não estiver disponível
     }
 }

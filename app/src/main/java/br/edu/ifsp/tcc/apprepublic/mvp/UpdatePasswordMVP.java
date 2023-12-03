@@ -12,6 +12,6 @@ public interface UpdatePasswordMVP {
     }
 
     interface Presenter{
-        void alterSenha(String email, String newSenha);
+        void alterSenha(String email, String newSenha, long userId);
     }
 }
