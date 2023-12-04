@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.edu.ifsp.tcc.apprepublic.model.home.HomeEntity;
 import br.edu.ifsp.tcc.apprepublic.model.request.Request;
+import br.edu.ifsp.tcc.apprepublic.model.user.User;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -24,14 +25,20 @@ public interface RequestService {
     Call<Request> getRequestById(@Header("Authorization") String authorization, @Path("id") Long id);
 
     @GET("/requests/user/{userId}")
-    Call<List<Request>> getRequestsByOwnerId(@Header("Authorization") String authorization, @Path("userId") Long userId);
+    Call<List<HomeEntity>> getRequestsByOwnerId(@Header("Authorization") String authorization, @Path("userId") Long userId);
 
     @GET("/requests/home/{homeId}")
-    Call<List<Request>> getRequestsByHomeId(@Header("Authorization") String authorization, @Path("homeId") Long homeId);
+    Call<List<User>> getRequestsByHomeId(@Header("Authorization") String authorization, @Path("homeId") Long homeId);
 
     @GET("/requests/prop/{userPropId}")
-    Call<List<Request>> getRequestsByUserPropId(@Header("Authorization") String authorization, @Path("userPropId") Long userPropId);
+    Call<List<HomeEntity>> getRequestsByUserPropId(@Header("Authorization") String authorization, @Path("userPropId") Long userPropId);
 
     @GET("/requests/homeInfos/{homeId}")
     Call<HomeEntity> getHomeInfoById(@Header("Authorization") String authorization, @Path("homeId") Long homeId);
+
+    @DELETE("/requests/home/home={homeId}/user={userId}")
+    Call<Void> deleteHomeRequest(@Header("Authorization") String authorization, @Path("homeId") Long homeId, @Path("userId") Long userId);
+
+    @GET("/requests/homeInfos/home={homeId}/user={userId}")
+    Call<Request> getConfirmInterested(@Header("Authorization") String authorization, @Path("homeId") Long homeId, @Path("userId") Long userId);
 }

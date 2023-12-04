@@ -149,6 +149,12 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
             case R.id.action_edit_password:
                 presenter.altSenha();
                 return true;
+            case R.id.action_list_user_solicition:
+                presenter.userSolicit();
+                return true;
+            case R.id.action_prop_solicition:
+                presenter.propSolicit();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

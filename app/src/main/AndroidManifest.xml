@@ -15,6 +15,18 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name="br.edu.ifsp.tcc.apprepublic.view.ContactUser"
+            android:exported="false" />
+        <activity
+            android:name="br.edu.ifsp.tcc.apprepublic.view.UserInfo"
+            android:exported="false" />
+        <activity
+            android:name="br.edu.ifsp.tcc.apprepublic.view.PropSolicites"
+            android:exported="false" />
+        <activity
+            android:name="br.edu.ifsp.tcc.apprepublic.view.UserSolicites"
+            android:exported="false" />
+        <activity
             android:name="br.edu.ifsp.tcc.apprepublic.view.UpdatePassword"
             android:exported="false" />
         <activity
@@ -25,7 +37,7 @@
             android:exported="false" />
         <activity
             android:name="br.edu.ifsp.tcc.apprepublic.view.ContactProp"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name="br.edu.ifsp.tcc.apprepublic.view.InfoResidences"
             android:exported="false" />

@@ -20,6 +20,16 @@
         app:showAsAction="never" /> <!-- Configura "never" para evitar que esta opção apareça na barra de ação -->
 
     <item
+        android:id="@+id/action_list_user_solicition"
+        android:title="Residencias solicitadas"
+        app:showAsAction="never" /> <!-- Configura "never" para evitar que esta opção apareça na barra de ação -->
+
+    <item
+        android:id="@+id/action_prop_solicition"
+        android:title="Residencias suas solicitadas"
+        app:showAsAction="never" /> <!-- Configura "never" para evitar que esta opção apareça na barra de ação -->
+
+    <item
         android:id="@+id/action_logout"
         android:title="Logout"
         app:showAsAction="never" /> <!-- Configura "never" para evitar que esta opção apareça na barra de ação -->

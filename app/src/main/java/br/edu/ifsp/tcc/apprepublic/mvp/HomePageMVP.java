@@ -19,5 +19,9 @@ public interface HomePageMVP {
         void changeToEditPerfil();
 
         void altSenha();
+
+        void propSolicit();
+
+        void userSolicit();
     }
 }
