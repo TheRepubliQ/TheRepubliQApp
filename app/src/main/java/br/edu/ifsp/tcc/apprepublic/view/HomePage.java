@@ -101,16 +101,29 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
 
     @SuppressLint("NotifyDataSetChanged")
     private void filterItems(String query) {
+        // Remove special characters from query
+        String cleanedQuery = query.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+
         List<HomeEntity> filteredList = new ArrayList<>();
+
         for (HomeEntity entity : homeList) {
-            if (entity.getDescr().toLowerCase().contains(query.toLowerCase()) ||
-                    entity.getEndereco().toString().toLowerCase().contains(query.toLowerCase())){
+            // Remove special characters from entity data for comparison
+            String cleanedDescr = entity.getDescr().replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+            String cleanedEndereco = entity.getEndereco().toString().replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+
+            // Check if the cleaned data contains the cleaned query and if the home is offered
+            if (cleanedDescr.contains(cleanedQuery) ||
+                    cleanedEndereco.contains(cleanedQuery) &&
+                            entity.getOfertado()) {
                 filteredList.add(entity);
             }
         }
+
         mAdapter.setHomeList(filteredList);
         mAdapter.notifyDataSetChanged();
     }
+
+
 
     private void findById() {
         Objects.requireNonNull(getSupportActionBar()).setTitle("Bem Vindos");
