@@ -95,7 +95,7 @@ public class InfoResidences extends AppCompatActivity implements InfoResidencesM
     public void infoHome(HomeEntity homeEntity) {
         textTitulo.setText(homeEntity.getTitulo());
         textDescricao.setText(homeEntity.getDescr());
-        textTipo.setText(homeEntity.getTipo().toString());  // Ou qualquer método que converta o enum para String
+        textTipo.setText(homeEntity.getTipo().getDescription());  // Ou qualquer método que converta o enum para String
         textPrec.setText(String.valueOf(homeEntity.getPreco()));  // Convertendo o preço para String
         textEndereco.setText(homeEntity.getEndereco().Forma());
         setListener(homeEntity);

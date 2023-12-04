@@ -147,7 +147,7 @@ public class UserInfo extends AppCompatActivity implements UserInfoMVP.View {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed(); // Isso faz com que a ação padrão de voltar seja chamada
+                finish(); // Fecha a atividade atual
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

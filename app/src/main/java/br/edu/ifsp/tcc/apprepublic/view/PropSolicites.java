@@ -2,6 +2,7 @@ package br.edu.ifsp.tcc.apprepublic.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -147,7 +148,8 @@ public class PropSolicites extends AppCompatActivity implements PropSolicitesMVP
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed(); // Isso faz com que a ação padrão de voltar seja chamada
+                Intent intent = new Intent(this, HomePage.class);
+                this.startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

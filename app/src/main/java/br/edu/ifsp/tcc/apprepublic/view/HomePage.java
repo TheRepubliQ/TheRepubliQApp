@@ -103,15 +103,14 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
     private void filterItems(String query) {
         List<HomeEntity> filteredList = new ArrayList<>();
 
-        String cleanedQuery = query.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-
         for (HomeEntity entity : homeList) {
-            if ((entity.getDescr().toLowerCase().contains(query.toLowerCase()) ||
-                    entity.getEndereco().toString().toLowerCase().contains(cleanedQuery.toLowerCase())) &&
+            if ((entity.getTipo().getDescription().contains(query) ||
+                    entity.getTitulo().contains(query)) &&
                     entity.getOfertado()) {
                 filteredList.add(entity);
             }
         }
+
 
         mAdapter.setHomeList(filteredList);
         mAdapter.notifyDataSetChanged();
