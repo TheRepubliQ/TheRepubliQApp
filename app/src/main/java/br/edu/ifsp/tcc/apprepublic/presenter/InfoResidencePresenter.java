@@ -76,9 +76,6 @@ public class InfoResidencePresenter implements InfoResidencesMVP.Presenter {
                     // Solicitação criada com sucesso
                     view.showMessage("Solicitação enviada com sucesso!");
 
-                    Intent intent = new Intent(context, ContactProp.class);
-                    intent.putExtra("home_id", request.getHomeId()); // Substitua 'getHomeId()' pelo método apropriado para obter o homeId da solicitação
-                    context.startActivity(intent);
                 } else {
                     // Exibe uma mensagem de erro genérica em caso de falha
                     view.showMessage("Erro ao enviar a solicitação. Tente novamente.");

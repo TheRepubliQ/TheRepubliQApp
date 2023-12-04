@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -142,5 +143,14 @@ public class PropSolicites extends AppCompatActivity implements PropSolicitesMVP
         return sharedPreferences.getLong("userId", -1);
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed(); // Isso faz com que a ação padrão de voltar seja chamada
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

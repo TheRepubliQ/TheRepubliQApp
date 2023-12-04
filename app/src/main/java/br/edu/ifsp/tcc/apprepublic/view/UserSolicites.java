@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -114,7 +115,7 @@ public class UserSolicites extends AppCompatActivity implements UserSolicitesMVP
         RequestService requestService = RESTService.getRequestService();
 
         // Obtém os Requests com base no User Prop ID igual ao UserId do usuário logado
-        Call<List<HomeEntity>> call = requestService.getRequestsByUserPropId(getAuthorizationToken(), getUserId());
+        Call<List<HomeEntity>> call = requestService.getRequestsByOwnerId(getAuthorizationToken(), getUserId());
         call.enqueue(new Callback<List<HomeEntity>>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -144,6 +145,17 @@ public class UserSolicites extends AppCompatActivity implements UserSolicitesMVP
     private long getUserId() {
         SharedPreferences sharedPreferences = getSharedPreferences("Prefes", Context.MODE_PRIVATE);
         return sharedPreferences.getLong("userId", -1);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed(); // Isso faz com que a ação padrão de voltar seja chamada
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

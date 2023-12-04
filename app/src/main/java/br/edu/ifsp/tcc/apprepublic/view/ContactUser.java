@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -83,5 +84,16 @@ public class ContactUser extends AppCompatActivity implements ContactUserMVP.Vie
     @Override
     public void showMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed(); // Isso faz com que a ação padrão de voltar seja chamada
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

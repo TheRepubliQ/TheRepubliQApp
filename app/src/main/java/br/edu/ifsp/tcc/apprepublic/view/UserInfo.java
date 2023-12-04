@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -140,5 +141,16 @@ public class UserInfo extends AppCompatActivity implements UserInfoMVP.View {
         SharedPreferences sharedPreferences = getSharedPreferences("Prefes", Context.MODE_PRIVATE);
         String accessToken = sharedPreferences.getString("accessToken", null);
         return "Bearer " + accessToken;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed(); // Isso faz com que a ação padrão de voltar seja chamada
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

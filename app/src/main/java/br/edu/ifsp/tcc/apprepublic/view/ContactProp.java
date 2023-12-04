@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -65,6 +66,7 @@ public class ContactProp extends AppCompatActivity implements ContactPropMVP.Vie
         btnContact = findViewById(R.id.btnMens);
     }
 
+
     @Override
     public Context getContext() {
         return this;
@@ -81,5 +83,16 @@ public class ContactProp extends AppCompatActivity implements ContactPropMVP.Vie
         textTel.setText(homeEntity.getUser().getTelefone());
 
         setListener(homeEntity);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed(); // Isso faz com que a ação padrão de voltar seja chamada
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
