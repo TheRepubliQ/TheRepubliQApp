@@ -3,9 +3,14 @@ package br.edu.ifsp.tcc.apprepublic.presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import br.edu.ifsp.tcc.apprepublic.Api.RESTService;
 import br.edu.ifsp.tcc.apprepublic.Api.TokenService;
+import br.edu.ifsp.tcc.apprepublic.Api.UserService;
+import br.edu.ifsp.tcc.apprepublic.model.user.User;
 import br.edu.ifsp.tcc.apprepublic.mvp.HomePageMVP;
 import br.edu.ifsp.tcc.apprepublic.view.EditUser;
 import br.edu.ifsp.tcc.apprepublic.view.HomePage;
@@ -123,5 +128,33 @@ public class HomePagePresenter implements HomePageMVP.Presenter {
 
         return authorizationHeader;
     }
+
+    public void getUserById(Long id) {
+        UserService userService = RESTService.getUserService();
+
+        Call<User> call = userService.getUserById(getAuthorizationToken(), id);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                int responseCode = response.code();
+                if (response.isSuccessful()) {
+                    // Informe à View para preencher os dados do usuário
+                    view.findById(response.body());
+                } else {
+                    // Informe à View sobre falha na obtenção dos dados do usuário
+                    view.showMessage("Falha ao obter os dados do usuário. Código de resposta: " + responseCode);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                // Informe à View sobre falha na chamada da API
+                view.showMessage("Erro na solicitação da API: " + t.getMessage());
+                Log.d("Erro filha da puta",  t.getMessage());
+
+            }
+        });
+    }
+
 
 }

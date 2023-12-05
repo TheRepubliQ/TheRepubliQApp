@@ -3,6 +3,7 @@ package br.edu.ifsp.tcc.apprepublic.view;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -90,8 +91,9 @@ public class ContactUser extends AppCompatActivity implements ContactUserMVP.Vie
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed(); // Isso faz com que a ação padrão de voltar seja chamada
-                return true;
+                Intent intent = new Intent(this, HomePage.class);
+                this.startActivity(intent);
+                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

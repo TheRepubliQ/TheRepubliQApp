@@ -2,6 +2,8 @@ package br.edu.ifsp.tcc.apprepublic.mvp;
 
 import android.content.Context;
 
+import br.edu.ifsp.tcc.apprepublic.model.user.User;
+
 public interface HomePageMVP {
 
 
@@ -9,6 +11,9 @@ public interface HomePageMVP {
         Context getContext();
 
         void showMessage(String mensage);
+
+        void findById(User body);
+
 
     }
 
@@ -23,5 +28,8 @@ public interface HomePageMVP {
         void propSolicit();
 
         void userSolicit();
+
+        void getUserById(Long id);
+
     }
 }

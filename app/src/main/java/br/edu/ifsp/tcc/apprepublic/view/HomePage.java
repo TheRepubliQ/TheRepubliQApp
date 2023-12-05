@@ -31,6 +31,7 @@ import br.edu.ifsp.tcc.apprepublic.Api.HomeService;
 import br.edu.ifsp.tcc.apprepublic.Api.RESTService;
 import br.edu.ifsp.tcc.apprepublic.model.home.HomeEntity;
 import br.edu.ifsp.tcc.apprepublic.model.home.Tipo;
+import br.edu.ifsp.tcc.apprepublic.model.user.User;
 import br.edu.ifsp.tcc.apprepublic.mvp.HomePageMVP;
 import br.edu.ifsp.tcc.apprepublic.presenter.HomePagePresenter;
 import br.edu.ifsp.tcc.apprepublic.presenter.ListResidencesPresenter;
@@ -52,16 +53,19 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
 
     private Spinner spinner;
 
+    private  User user;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         presenter = new HomePagePresenter(this, this);
-        findById();
+        presenter.getUserById(getUserId());
         initializeRecyclerView();
         setupSearch();
     }
-
 
 
     private void initializeRecyclerView() {
@@ -117,10 +121,12 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
     }
 
 
-    private void findById() {
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Bem Vindos");
+    public void findById(User user) {
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Bem Vindos " + user.getName());
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         populateTipoMoradiaSpinner();
+        this.user = user;
+
     }
 
     public Context getContext() {
@@ -135,6 +141,17 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_home, menu);
+
+        // Obtém a referência para a opção de menu que deseja modificar
+        MenuItem residencesItem = menu.findItem(R.id.action_list_residences);
+        MenuItem propSolicitationItem = menu.findItem(R.id.action_prop_solicition);
+
+        // Define a visibilidade com base na propriedade isProp
+        if (user != null) {
+            residencesItem.setVisible(user.getIsProp());
+            propSolicitationItem.setVisible(user.getIsProp());
+        }
+
         return true;
     }
 
@@ -145,9 +162,6 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
             case R.id.action_edit_profile:
                 presenter.changeToEditPerfil();
                 return true;
-            case R.id.action_list_residences:
-                presenter.changeToRegisterResidence();
-                return true;
             case R.id.action_logout:
                 presenter.logout();
                 return true;
@@ -157,6 +171,9 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
             case R.id.action_list_user_solicition:
                 presenter.userSolicit();
                 return true;
+            case R.id.action_list_residences:
+                presenter.changeToRegisterResidence();
+                return true;
             case R.id.action_prop_solicition:
                 presenter.propSolicit();
                 return true;
@@ -164,6 +181,9 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
+
 
     private void setupSearch() {
         editTextSearch = findViewById(R.id.editTextSearch);
@@ -227,6 +247,11 @@ public class HomePage extends AppCompatActivity implements HomePageMVP.View {
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
+    }
+
+    private long getUserId() {
+        SharedPreferences sharedPreferences = getSharedPreferences("Prefes", Context.MODE_PRIVATE);
+        return sharedPreferences.getLong("userId", -1); // Retorne -1 se o ID não estiver disponível
     }
 
 
